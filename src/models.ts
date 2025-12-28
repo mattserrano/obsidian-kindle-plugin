@@ -38,6 +38,7 @@ export type SyncMode = 'amazon' | 'my-clippings';
 
 export type AmazonAccountRegion =
   | 'global'
+  | 'canada'
   | 'india'
   | 'japan'
   | 'spain'

@@ -105,7 +105,7 @@ export class SettingsTab extends PluginSettingTab {
     new Setting(this.containerEl)
       .setName('Amazon region')
       .setDesc(
-        "Amazon's kindle reader is region specific. Choose your preferred country/region which has your highlights"
+        "Amazon's Kindle reader is region specific. Choose your preferred country/region which has your highlights"
       )
       .addDropdown((dropdown) => {
         orderedAmazonRegions().forEach((region: AmazonAccountRegion) => {
