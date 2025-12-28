@@ -15,6 +15,7 @@ type Settings = {
   fileNameTemplate?: string;
   syncOnBoot: boolean;
   downloadBookMetadata: boolean;
+  downloadHighResImages: boolean;
 
   // Deprecated - delete eventually
   noteTemplate?: string;
@@ -28,6 +29,7 @@ const DEFAULT_SETTINGS: Settings = {
   isLoggedIn: false,
   syncOnBoot: false,
   downloadBookMetadata: true,
+  downloadHighResImages: false,
 };
 
 const createSettingsStore = () => {
@@ -150,6 +152,13 @@ const createSettingsStore = () => {
     });
   };
 
+  const setDownloadHighResImages = (value: boolean) => {
+    store.update((state) => {
+      state.downloadHighResImages = value;
+      return state;
+    });
+  };
+
   const setAmazonRegion = (value: AmazonAccountRegion) => {
     store.update((state) => {
       state.amazonRegion = value;
@@ -171,6 +180,7 @@ const createSettingsStore = () => {
       setHighlightTemplate,
       setSyncOnBoot,
       setDownloadBookMetadata,
+      setDownloadHighResImages,
       setAmazonRegion,
       upgradeStoreState,
     },
