@@ -37,15 +37,17 @@ const parseHighlights = ($: Root): Highlight[] => {
 
     const highlightClasses = $('.kp-notebook-highlight', highlightEl).attr('class');
     const color = mapTextToColor(highlightClasses);
-
     const text = $('#highlight', highlightEl).text()?.trim();
+    const note = br2ln($('#note', highlightEl).html());
+    const location = $('#kp-annotation-location', highlightEl).val();
+    const page = pageMatch ? pageMatch[0] : null;
     return {
       id: hash(text),
       text,
       color,
-      location: $('#kp-annotation-location', highlightEl).val(),
-      page: pageMatch ? pageMatch[0] : null,
-      note: br2ln($('#note', highlightEl).html()),
+      note,
+      location,
+      page,
     };
   });
 };
@@ -76,7 +78,7 @@ const scrapeBookHighlights = async (book: Book): Promise<Highlight[]> => {
     hasNextPage = data.hasNextPage;
   }
 
-  return results.filter((h) => h.text);
+  return results.filter((h) => h.text || h.note);
 };
 
 export default scrapeBookHighlights;
