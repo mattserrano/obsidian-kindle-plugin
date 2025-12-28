@@ -38,6 +38,7 @@ export class SettingsTab extends PluginSettingTab {
     this.highlightsFolder();
     this.amazonRegion();
     this.downloadBookMetadata();
+    this.downloadHighResImages();
     this.syncOnBoot();
     this.sponsorMe();
   }
@@ -150,6 +151,19 @@ export class SettingsTab extends PluginSettingTab {
       .addToggle((toggle) =>
         toggle.setValue(get(settingsStore).downloadBookMetadata).onChange((value) => {
           settingsStore.actions.setDownloadBookMetadata(value);
+        })
+      );
+  }
+
+  private downloadHighResImages(): void {
+    new Setting(this.containerEl)
+      .setName('Download high resolution book images')
+      .setDesc(
+        'Display higher resolution book cover images in your notes when available'
+      )
+      .addToggle((toggle) =>
+        toggle.setValue(get(settingsStore).downloadHighResImages).onChange((value) => {
+          settingsStore.actions.setDownloadHighResImages(value);
         })
       );
   }
