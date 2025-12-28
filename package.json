@@ -1,17 +1,17 @@
 {
-  "name": "obsidian-kindle-plugin",
-  "version": "1.9.2",
+  "name": "obsidian-kindle-highlights-plugin",
+  "version": "1.0.0",
   "description": "Sync your Kindle book highlights using your Amazon login or uploading your My Clippings file",
   "main": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hadynz/obsidian-kindle-highlights.git"
+    "url": "https://github.com/mattserrano/obsidian-kindle-plugin.git"
   },
   "keywords": [],
   "author": {
-    "name": "Hady Osman",
-    "email": "hadyos@gmail.com",
-    "url": "https://hady.geek.nz"
+    "name": "Matthew Serrano",
+    "email": "mattserrano@me.com",
+    "url": "https://blankwire.net"
   },
   "license": "MIT",
   "scripts": {
