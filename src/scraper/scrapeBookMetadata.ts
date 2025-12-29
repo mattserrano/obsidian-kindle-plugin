@@ -1,5 +1,6 @@
 import type { Root } from 'cheerio';
 
+import { currentAmazonRegion } from '~/amazonRegion';
 import type { Book, BookMetadata } from '~/models';
 
 import { loadRemoteDom } from './loadRemoteDom';
@@ -58,8 +59,9 @@ const parseIsbn = ($: Root): string | null => {
 };
 
 const parseAuthorUrl = ($: Root): string | null => {
-  const href = $('.contributorNameID').attr('href');
-  return `https://www.amazon.com${href}`;
+  const region = currentAmazonRegion();
+  const href = $('a.a-size-base.a-link-normal.a-text-normal').attr('href');
+  return href ? `https://${region.hostname}/${href}` : null;
 };
 
 export const parseBookMetadata = ($: Root): BookMetadata => {
@@ -73,7 +75,8 @@ export const parseBookMetadata = ($: Root): BookMetadata => {
 };
 
 const scrapeBookMetadata = async (book: Book): Promise<BookMetadata> => {
-  const { dom } = await loadRemoteDom(`https://www.amazon.com/dp/${book.asin}`, 1000);
+  const region = currentAmazonRegion();
+  const { dom } = await loadRemoteDom(`https://${region.hostname}/dp/${book.asin}`, 1000);
 
   return parseBookMetadata(dom);
 };
