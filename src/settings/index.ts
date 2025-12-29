@@ -163,7 +163,7 @@ export class SettingsTab extends PluginSettingTab {
 
   private syncOnBoot(): void {
     new Setting(this.containerEl)
-      .setName('Sync on Startup')
+      .setName('Sync on startup')
       .setDesc(
         'Automatically sync new Kindle highlights when Obsidian starts  (Amazon sync only)'
       )
