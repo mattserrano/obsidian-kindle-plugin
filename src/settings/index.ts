@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { App, PluginSettingTab, Setting } from 'obsidian';
+import { App, Notice, PluginSettingTab, Setting } from 'obsidian';
 import { get } from 'svelte/store';
 
 import type KindlePlugin from '~/.';
@@ -35,6 +35,8 @@ export class SettingsTab extends PluginSettingTab {
 
     this.templatesEditor();
     this.highlightsFolder();
+    this.basesFolder();
+    this.highlightsBase();
     this.amazonRegion();
     this.downloadBookMetadata();
     this.downloadHighResImages();
@@ -133,6 +135,42 @@ export class SettingsTab extends PluginSettingTab {
           settingsStore.actions.setHighlightsFolder(value);
         });
       });
+  }
+
+  private basesFolder(): void {
+    new Setting(this.containerEl)
+      .setName('Highlights Bases folder location')
+      .setDesc('Vault folder to use for creating Kindle highlights Base files')
+      .addDropdown((dropdown) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+        const files = (this.app.vault.adapter as any).files as AdapterFile[];
+        const folders = _.pickBy(files, (val) => {
+          return val.type === 'folder';
+        });
+
+        Object.keys(folders).forEach((val) => {
+          dropdown.addOption(val, val);
+        });
+        return dropdown.setValue(get(settingsStore).basesFolder).onChange((value) => {
+          settingsStore.actions.setBasesFolder(value);
+        });
+      });
+  }
+
+  private highlightsBase(): void {
+    new Setting(this.containerEl)
+      .setName('Kindle Highlights Base file')
+      .setDesc('Create a customizable Obsidian Base file in the Highlights folder location to display your Kindle highlights and metadata')
+      .addButton((button => {
+        button.setButtonText('Create Base file').onClick(async () => {
+          const basesFolder = get(settingsStore).basesFolder;
+          try {
+            await this.fileManager.createBaseFile(basesFolder);
+          } catch (error) {
+            new Notice('Error creating Kindle Highlights Base file: ' + String(error));
+          }
+        });
+      }));
   }
 
   private downloadBookMetadata(): void {

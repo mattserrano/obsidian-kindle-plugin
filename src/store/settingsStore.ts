@@ -8,6 +8,7 @@ import type { AmazonAccountRegion, SyncMode } from '~/models';
 type Settings = {
   amazonRegion: AmazonAccountRegion;
   highlightsFolder: string;
+  basesFolder: string;
   lastSyncDate?: Date;
   lastSyncMode: SyncMode;
   isLoggedIn: boolean;
@@ -26,6 +27,7 @@ type Settings = {
 const DEFAULT_SETTINGS: Settings = {
   amazonRegion: 'global',
   highlightsFolder: '/',
+  basesFolder: '/',
   lastSyncMode: 'amazon',
   isLoggedIn: false,
   syncOnBoot: false,
@@ -110,6 +112,13 @@ const createSettingsStore = () => {
     });
   };
 
+  const setBasesFolder = (value: string) => {
+    store.update((state) => {
+      state.basesFolder = value;
+      return state;
+    });
+  };
+
   const login = () => {
     store.update((state) => {
       state.isLoggedIn = true;
@@ -174,6 +183,7 @@ const createSettingsStore = () => {
     isLegacy,
     actions: {
       setHighlightsFolder,
+      setBasesFolder,
       login,
       logout,
       setFileTemplate,

@@ -1,4 +1,4 @@
-import { MetadataCache, normalizePath, TAbstractFile, TFile, TFolder, Vault } from 'obsidian';
+import { MetadataCache, normalizePath, Notice, TAbstractFile, TFile, TFolder, Vault } from 'obsidian';
 
 import type { Book, KindleFile, KindleFrontmatter } from '~/models';
 import { mergeFrontmatter } from '~/utils';
@@ -6,9 +6,52 @@ import { mergeFrontmatter } from '~/utils';
 import { bookFilePath, bookToFrontMatter, frontMatterToBook } from './mappers';
 
 const SyncingStateKey = 'kindle-sync';
-
+const HighlightsBaseFileName = 'Kindle Notes and Highlights.base'
+const BaseContent = `formulas:
+  cover: note["kindle-sync"]["bookImageUrl"]
+  title: note["kindle-sync"]["title"]
+  author: note["kindle-sync"]["author"]
+  asin: note["kindle-sync"]["asin"]
+  lastAnnotatedDate: note["kindle-sync"]["lastAnnotatedDate"]
+  highlightsCount: note["kindle-sync"]["highlightsCount"]
+properties:
+  formula.cover:
+    displayName: cover
+  formula.title:
+    displayName: title
+  formula.lastAnnotatedDate:
+    displayName: last annotated
+  formula.highlightsCount:
+    displayName: highlights
+views:
+  - type: cards
+    name: Table
+    filters:
+      and:
+        - file.hasProperty("kindle-sync")
+    order:
+      - formula.title
+      - formula.title
+      - formula.author
+      - formula.asin
+      - formula.lastAnnotatedDate
+      - formula.highlightsCount
+    image: formula.cover
+    cardSize: 150
+    imageAspectRatio: 1.5
+`
 export default class FileManager {
   constructor(private vault: Vault, private metadataCache: MetadataCache) {}
+
+  public async createBaseFile(basesFolder: string): Promise<void> {
+    const filePath = normalizePath(`${basesFolder}/${HighlightsBaseFileName}`);
+    try {
+      await this.vault.create(filePath, BaseContent);
+    } catch (error) {
+      console.error(`Error writing new base file (path="${filePath})"`);
+      throw error;
+    }
+  }
 
   public async readFile(file: KindleFile): Promise<string> {
     return await this.vault.cachedRead(file.file);
