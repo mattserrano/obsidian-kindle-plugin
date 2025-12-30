@@ -40,4 +40,12 @@ export const registerNotifications = (): void => {
   ee.on('logoutFailure', () => {
     new Notice('Error. Could not sign out');
   });
+
+  ee.on('createHighlightBaseSuccess', () => {
+    new Notice('Created Kindle Highlights Base');
+  });
+
+  ee.on('createHighlightBaseFailure', (message: string) => {
+    new Notice('Error creating Kindle Highlights Base file: ' + String(message));
+  });
 };
