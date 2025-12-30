@@ -35,6 +35,8 @@ export class SettingsTab extends PluginSettingTab {
 
     this.templatesEditor();
     this.highlightsFolder();
+    this.baseFolder();
+    this.highlightsBase();
     this.amazonRegion();
     this.downloadBookMetadata();
     this.downloadHighResImages();
@@ -133,6 +135,43 @@ export class SettingsTab extends PluginSettingTab {
           settingsStore.actions.setHighlightsFolder(value);
         });
       });
+  }
+
+  private baseFolder(): void {
+    new Setting(this.containerEl)
+      .setName('Highlights base folder location')
+      .setDesc('Vault folder to use for the Kindle highlights base')
+      .addDropdown((dropdown) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+        const files = (this.app.vault.adapter as any).files as AdapterFile[];
+        const folders = _.pickBy(files, (val) => {
+          return val.type === 'folder';
+        });
+
+        Object.keys(folders).forEach((val) => {
+          dropdown.addOption(val, val);
+        });
+        return dropdown.setValue(get(settingsStore).baseFolder).onChange((value) => {
+          settingsStore.actions.setBasesFolder(value);
+        });
+      });
+  }
+
+  private highlightsBase(): void {
+    new Setting(this.containerEl)
+      .setName('Kindle Highlights Base file')
+      .setDesc('Create a customizable Obsidian Base file in the Highlights folder location to display your Kindle highlights and metadata')
+      .addButton((button => {
+        button.setButtonText('Create base file').onClick(async () => {
+          const baseFolder = get(settingsStore).baseFolder;
+          try {
+            await this.fileManager.createBaseFile(baseFolder);
+            ee.emit('createHighlightBaseSuccess');
+          } catch (error) {
+            ee.emit('createHighlightBaseFailure', String(error));
+          }
+        });
+      }));
   }
 
   private downloadBookMetadata(): void {

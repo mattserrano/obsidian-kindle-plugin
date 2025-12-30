@@ -21,6 +21,8 @@ interface MessageEvents {
   resyncBook: (file: KindleFile) => void;
   resyncComplete: (file: KindleFile, diffCount: number) => void;
   resyncFailure: (file: KindleFile, message: string) => void;
+  createHighlightBaseSuccess: () => void;
+  createHighlightBaseFailure: (message: string) => void;
 }
 
 export const ee = new EventEmitter() as TypedEmitter<MessageEvents>;
