@@ -17,10 +17,6 @@ type Settings = {
   syncOnBoot: boolean;
   downloadBookMetadata: boolean;
   downloadHighResImages: boolean;
-
-  // Deprecated - delete eventually
-  noteTemplate?: string;
-  history?: string;
 };
 
 const DEFAULT_SETTINGS: Settings = {
@@ -88,21 +84,6 @@ const createSettingsStore = () => {
         .catch((err) => console.error(`Error saving settings: ${String(err)}`));
     }
   });
-
-  const isLegacy = async () => {
-    const data = Object.assign({}, DEFAULT_SETTINGS, await _plugin.loadData()) as Settings;
-    return data.history != null;
-  };
-
-  const upgradeStoreState = async () => {
-    const data = Object.assign({}, DEFAULT_SETTINGS, await _plugin.loadData()) as Settings;
-
-    // Remove deprecated settings field
-    delete data.noteTemplate;
-    delete data.history;
-
-    await _plugin.saveData(data);
-  };
 
   const setHighlightsFolder = (value: string) => {
     store.update((state) => {
@@ -179,7 +160,6 @@ const createSettingsStore = () => {
     store,
     subscribe: store.subscribe,
     initialize,
-    isLegacy,
     actions: {
       setHighlightsFolder,
       setBasesFolder,
@@ -192,7 +172,6 @@ const createSettingsStore = () => {
       setDownloadBookMetadata,
       setDownloadHighResImages,
       setAmazonRegion,
-      upgradeStoreState,
     },
   };
 };

@@ -1,7 +1,6 @@
 import { App, Modal } from 'obsidian';
 
 import type { SyncMode } from '~/models';
-import { settingsStore } from '~/store';
 
 import { store, SyncModalState } from './store';
 import SyncModalContent from './SyncModalContent.svelte';
@@ -29,9 +28,7 @@ export default class SyncModal extends Modal {
   }
 
   public async show(): Promise<void> {
-    // TODO: Remove after proliferation of v1.0.0
-    const isLegacy = await settingsStore.isLegacy();
-    const initialState: SyncModalState['status'] = isLegacy ? 'upgrade-warning' : 'idle';
+    const initialState: SyncModalState['status'] = 'idle';
     store.update((state) => ({ ...state, status: initialState }));
 
     this.modalContent = new SyncModalContent({
@@ -47,10 +44,6 @@ export default class SyncModal extends Modal {
             this.props.onMyClippingsSync();
           }
         },
-        onUpgrade: async () => {
-          await settingsStore.actions.upgradeStoreState();
-          store.update((state) => ({ ...state, status: 'idle' }));
-        },
       },
     });
 
@@ -58,7 +51,7 @@ export default class SyncModal extends Modal {
       this.titleEl.innerText = SyncModalTitle[state.status];
     });
 
-    this.open();
+    return Promise.resolve(this.open());
   }
 
   onClose(): void {
