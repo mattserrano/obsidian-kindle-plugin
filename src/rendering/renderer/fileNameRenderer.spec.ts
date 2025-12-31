@@ -6,12 +6,12 @@ describe('FileNameRenderer', () => {
   describe('validate', () => {
     it('should return true for valid template', () => {
       const renderer = new FileNameRenderer('');
-      expect(renderer.validate('{{shortTitle}}')).toBe(true);
+      expect(renderer.validate('{{title}}')).toBe(true);
     });
 
     it('should return false for invalid template', () => {
       const renderer = new FileNameRenderer('');
-      expect(renderer.validate('{{shortTitle')).toBe(false);
+      expect(renderer.validate('{{title')).toBe(false);
     });
 
     it.each([null, undefined])('should return true for %s template', (template) => {
@@ -26,7 +26,7 @@ describe('FileNameRenderer', () => {
         title: 'Immunity to change: How to overcome it',
       };
 
-      const renderer = new FileNameRenderer('{{shortTitle}}');
+      const renderer = new FileNameRenderer('{{title}}');
       expect(renderer.render(book)).toBe('Immunity to change.md');
     });
 
