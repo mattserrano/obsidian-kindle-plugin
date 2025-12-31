@@ -15,7 +15,6 @@ const updatedSince = (book: Book, lastSyncDate: Date): boolean => {
   if (book.lastAnnotatedDate != null) {
     return moment(lastSyncDate)
       .startOf('day')
-      .subtract(1, 'd')
       .isSameOrBefore(book.lastAnnotatedDate);
   }
   return false;
