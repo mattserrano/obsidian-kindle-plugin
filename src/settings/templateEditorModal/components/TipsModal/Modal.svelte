@@ -4,6 +4,8 @@
 
   import type { TemplateTab } from '../../types';
 
+  import { strings } from '~/i18n';
+
   export let template: TemplateTab;
 </script>
 
@@ -20,51 +22,51 @@
         <CommonVariables />
         <tr>
           <td><Chip title={'asin'} /></td>
-          <td>Book ASIN</td>
+          <td>{strings.tipsModal.asinTip}</td>
         </tr>
         <tr>
           <td><Chip title={'url'} /></td>
-          <td>Book Url on Amazon.com</td>
+          <td>{strings.tipsModal.urlTip}</td>
         </tr>
         <tr>
           <td><Chip title={'imageUrl'} /></td>
-          <td>Book cover page Url</td>
+          <td>{strings.tipsModal.imageUrlTip}</td>
         </tr>
         <tr>
           <td><Chip title={'lastAnnotatedDate'} /></td>
-          <td>Date of last book highlight</td>
+          <td>{strings.tipsModal.lastAnnotatedDateTip}</td>
         </tr>
         <tr>
           <td><Chip title={'appLink'} /></td>
-          <td>Link to book in Kindle app</td>
+          <td>{strings.tipsModal.appLinkTip}</td>
         </tr>
         <tr>
           <td><Chip title={'isbn'} /></td>
-          <td>ISBN</td>
+          <td>{strings.tipsModal.isbnTip}</td>
         </tr>
         <tr>
           <td><Chip title={'pages'} /></td>
-          <td>Number of pages in book</td>
+          <td>{strings.tipsModal.pagesTip}</td>
         </tr>
         <tr>
           <td><Chip title={'publicationDate'} /></td>
-          <td>Publication date</td>
+          <td>{strings.tipsModal.publicationDateTip}</td>
         </tr>
         <tr>
           <td><Chip title={'publisher'} /></td>
-          <td>Name of publisher</td>
+          <td>{strings.tipsModal.publisherTip}</td>
         </tr>
         <tr>
           <td><Chip title={'authorUrl'} /></td>
-          <td>Author's page on Amazon.com</td>
+          <td>{strings.tipsModal.authorUrl}</td>
         </tr>
         <tr>
           <td><Chip title={'highlightsCount'} /></td>
-          <td>Number of highlights <span class="mute">- (always set)</span></td>
+          <td>{strings.tipsModal.highlightsCountTip}<span class="mute">{strings.tipsModal.alwaysSet}</span></td>
         </tr>
         <tr>
           <td><Chip title={'highlights'} /></td>
-          <td>Block of book highlights <span class="mute">- (always set)</span></td>
+          <td>{strings.tipsModal.highlightsTip}<span class="mute">- (always set)</span></td>
         </tr>
       </tbody>
     </table>
@@ -74,39 +76,39 @@
         <CommonVariables />
         <tr /><tr>
           <td><Chip title={'text'} /></td>
-          <td>Highlighted text<span class="mute">- (always set)</span></td>
+          <td>{strings.tipsModal.textTip}<span class="mute">{strings.tipsModal.alwaysSet}</span></td>
         </tr>
         <tr>
           <td><Chip title={'location'} /></td>
-          <td>Location</td>
+          <td>{strings.tipsModal.locationTip}</td>
         </tr>
         <tr>
           <td><Chip title={'page'} /></td>
-          <td>Page</td>
+          <td>{strings.tipsModal.pageTip}</td>
         </tr>
         <tr>
           <td><Chip title={'note'} /></td>
-          <td>Your note annotation</td>
+          <td>{strings.tipsModal.noteTip}</td>
         </tr>
         <tr>
           <td><Chip title={'color'} /></td>
-          <td>Highlighted color</td>
+          <td>{strings.tipsModal.colorTip}</td>
         </tr>
         <tr>
           <td><Chip title={'createdDate'} /></td>
           <td
-            >Highlight creation date. <br /><span class="mute"
-              >Use
-              <a href="https://momentjs.com/docs/#/displaying/format/"
-                >moment's format strings</a
+            >{strings.tipsModal.creationDateTip} <br /><span class="mute"
               >
-              to format date e.g. <Chip title={'createdDate | date("DD-MM-YYYY")'} /></span
+              <a href="https://momentjs.com/docs/#/displaying/format/"
+                >(momentjs format strings)</a
+              > 
+              <Chip title={'createdDate | date("DD-MM-YYYY")'} /></span
             >
           </td>
         </tr>
         <tr>
           <td><Chip title={'appLink'} /></td>
-          <td>Link to highlighted text in Kindle app</td>
+          <td>{strings.tipsModal.appLinkTip}</td>
         </tr>
       </tbody>
     </table>

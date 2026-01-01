@@ -2,6 +2,7 @@ import { remote } from 'electron';
 import { App, Modal as ObsidianModal } from 'obsidian';
 import { get } from 'svelte/store';
 
+import { strings } from '~/i18n';
 import { settingsStore } from '~/store';
 
 import Modal from './components/Modal/Modal.svelte';
@@ -13,11 +14,10 @@ const { dialog } = remote;
 
 const showUnsavedChangesWarningDialog = async () => {
   const result = await dialog.showMessageBox(remote.getCurrentWindow(), {
-    title: 'Unsaved changes',
-    message:
-      'Are you sure you want to close the template editor without saving? Your changes will be lost.',
+    title: strings.templateEditorModal.title,
+    message: strings.templateEditorModal.message,
     type: 'warning',
-    buttons: ['Discard', 'Cancel'],
+    buttons: [strings.common.discardButton, strings.common.cancelButton],
   });
 
   return result.response === 0 ? 'discard' : 'cancel';

@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { SyncMode } from '~/models';
   import { settingsStore } from '~/store';
+  import { strings } from '~/i18n';
   import amazonIcon from '~/assets/amazonIcon.svg';
   import clippingsIcon from '~/assets/clippingsIcon.svg';
 
@@ -21,7 +22,7 @@
     >
       {@html amazonIcon}
     </a>
-    <div class="kp-syncbuttons-text">Amazon Cloud</div>
+    <div class="kp-syncbuttons-text">{strings.syncModal.amazonCloud}</div>
   </div>
   <div class="kp-syncbuttons--option">
     <a
@@ -34,7 +35,7 @@
     >
       {@html clippingsIcon}
     </a>
-    <div class="kp-syncbuttons-text">Upload "My Clippings" file</div>
+    <div class="kp-syncbuttons-text">{strings.syncModal.uploadClippings}</div>
   </div>
 </div>
 
@@ -43,7 +44,7 @@
     class="mod-cta"
     on:click={() => {
       onClick(selectedSyncType);
-    }}>Sync now</button
+    }}>{strings.syncModal.syncNowButton}</button
   >
 </div>
 
