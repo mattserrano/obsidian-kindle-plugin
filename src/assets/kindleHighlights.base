@@ -19,7 +19,7 @@ views:
     name: Books
     filters:
       and:
-        - file.hasProperty("kindle-sync")
+        - file.hasTag("kindle-highlights")
     order:
       - formula.title
       - formula.title

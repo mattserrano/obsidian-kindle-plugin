@@ -36,6 +36,8 @@ export type BookMetadata = {
 
 export type SyncMode = 'amazon' | 'my-clippings';
 
+export const BookNoteTag = 'kindle-highlights';
+
 export type AmazonAccountRegion =
   | 'global'
   | 'canada'
