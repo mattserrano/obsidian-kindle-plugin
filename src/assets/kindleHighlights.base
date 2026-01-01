@@ -16,7 +16,7 @@ properties:
     displayName: highlights
 views:
   - type: cards
-    name: Table
+    name: Books
     filters:
       and:
         - file.hasProperty("kindle-sync")
