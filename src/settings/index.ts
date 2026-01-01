@@ -6,6 +6,7 @@ import type KindlePlugin from '~/.';
 import { AmazonRegions, orderedAmazonRegions } from '~/amazonRegion';
 import { ee } from '~/eventEmitter';
 import type FileManager from '~/fileManager';
+import { strings } from '~/i18n';
 import type { AmazonAccountRegion } from '~/models';
 import { clearSessionData } from '~/scraper';
 import { settingsStore } from '~/store';
@@ -46,11 +47,11 @@ export class SettingsTab extends PluginSettingTab {
 
   private templatesEditor(): void {
     new Setting(this.containerEl)
-      .setName('Templates')
-      .setDesc('Manage and edit templates for file names and highlight note content')
+      .setName(strings.settings.templates.title)
+      .setDesc(strings.settings.templates.description)
       .addButton((button) => {
         button
-          .setButtonText('Manage')
+          .setButtonText(strings.settings.templates.button)
           .onClick(() => {
             new TemplateEditorModal(this.app).show();
           });
@@ -70,14 +71,14 @@ export class SettingsTab extends PluginSettingTab {
     `);
 
     new Setting(this.containerEl)
-      .setName('Logged in to Amazon Kindle Reader')
+      .setName(strings.settings.account.title)
       .setDesc(descFragment)
       .addButton((button) => {
         return button
-          .setButtonText('Sign out')
+          .setButtonText(strings.settings.account.buttonDefault)
           .setCta()
           .onClick(async () => {
-            button.removeCta().setButtonText('Signing out...').setDisabled(true);
+            button.removeCta().setButtonText(strings.settings.account.buttonPressed).setDisabled(true);
 
             ee.emit('startLogout');
 
@@ -99,10 +100,8 @@ export class SettingsTab extends PluginSettingTab {
 
   private amazonRegion(): void {
     new Setting(this.containerEl)
-      .setName('Amazon region')
-      .setDesc(
-        "Amazon's Kindle reader is region specific. Choose your preferred country/region which has your highlights"
-      )
+      .setName(strings.settings.region.title)
+      .setDesc(strings.settings.region.description)
       .addDropdown((dropdown) => {
         orderedAmazonRegions().forEach((region: AmazonAccountRegion) => {
           const account = AmazonRegions[region];
@@ -119,8 +118,8 @@ export class SettingsTab extends PluginSettingTab {
 
   private highlightsFolder(): void {
     new Setting(this.containerEl)
-      .setName('Highlights folder location')
-      .setDesc('Vault folder to use for writing book highlight notes')
+      .setName(strings.settings.highlightsFolder.title)
+      .setDesc(strings.settings.highlightsFolder.descriotion)
       .addDropdown((dropdown) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
         const files = (this.app.vault.adapter as any).files as AdapterFile[];
@@ -139,8 +138,8 @@ export class SettingsTab extends PluginSettingTab {
 
   private baseFolder(): void {
     new Setting(this.containerEl)
-      .setName('Highlights base folder location')
-      .setDesc('Vault folder to use for the Kindle highlights base')
+      .setName(strings.settings.highlightsBaseFolder.title)
+      .setDesc(strings.settings.highlightsBaseFolder.description)
       .addDropdown((dropdown) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
         const files = (this.app.vault.adapter as any).files as AdapterFile[];
@@ -159,10 +158,10 @@ export class SettingsTab extends PluginSettingTab {
 
   private highlightsBase(): void {
     new Setting(this.containerEl)
-      .setName('Kindle Highlights Base file')
-      .setDesc('Create a customizable Obsidian Base file in the Highlights folder location to display your Kindle highlights and metadata')
+      .setName(strings.settings.highlightsBaseFile.title)
+      .setDesc( strings.settings.highlightsBaseFile.description)
       .addButton((button => {
-        button.setButtonText('Create base file').onClick(async () => {
+        button.setButtonText(strings.settings.highlightsBaseFile.button).onClick(async () => {
           const baseFolder = get(settingsStore).baseFolder;
           try {
             await this.fileManager.createBaseFile(baseFolder);
@@ -176,10 +175,8 @@ export class SettingsTab extends PluginSettingTab {
 
   private downloadBookMetadata(): void {
     new Setting(this.containerEl)
-      .setName('Download book metadata')
-      .setDesc(
-        'Download extra book metadata from Amazon.com (Amazon sync only). Switch off to speed sync'
-      )
+      .setName(strings.settings.downloadBookMetadata.title)
+      .setDesc(strings.settings.downloadBookMetadata.description)
       .addToggle((toggle) =>
         toggle.setValue(get(settingsStore).downloadBookMetadata).onChange((value) => {
           settingsStore.actions.setDownloadBookMetadata(value);
@@ -189,10 +186,8 @@ export class SettingsTab extends PluginSettingTab {
 
   private downloadHighResImages(): void {
     new Setting(this.containerEl)
-      .setName('Download high resolution book images')
-      .setDesc(
-        'Display higher resolution book cover images in your notes when available'
-      )
+      .setName(strings.settings.downloadHighResImages.title)
+      .setDesc(strings.settings.downloadHighResImages.description)
       .addToggle((toggle) =>
         toggle.setValue(get(settingsStore).downloadHighResImages).onChange((value) => {
           settingsStore.actions.setDownloadHighResImages(value);
@@ -202,10 +197,8 @@ export class SettingsTab extends PluginSettingTab {
 
   private syncOnBoot(): void {
     new Setting(this.containerEl)
-      .setName('Sync on startup')
-      .setDesc(
-        'Automatically sync new Kindle highlights when Obsidian starts  (Amazon sync only)'
-      )
+      .setName(strings.settings.syncOnStartup.title)
+      .setDesc(strings.settings.syncOnStartup.description)
       .addToggle((toggle) =>
         toggle.setValue(get(settingsStore).syncOnBoot).onChange((value) => {
           settingsStore.actions.setSyncOnBoot(value);
@@ -215,10 +208,8 @@ export class SettingsTab extends PluginSettingTab {
 
   private sponsorMe(): void {
     new Setting(this.containerEl)
-      .setName('Sponsor')
-      .setDesc(
-        'Has this plugin enhanced your workflow? Say thanks as a one-time payment and buy me a coffee'
-      )
+      .setName(strings.settings.sponsor.title)
+      .setDesc(strings.settings.sponsor.description)
       .addButton((bt) => {
         bt.buttonEl.outerHTML = `<a href="https://www.buymeacoffee.com/hadynz"><img style="height: 35px;" src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hadynz&button_colour=BD5FFF&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00"></a>`;
       });

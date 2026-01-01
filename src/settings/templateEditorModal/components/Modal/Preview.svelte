@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { TemplateEditorModalStore } from '../../store';
 
+  import { strings } from '~/i18n';
+
   export let editorStore: TemplateEditorModalStore;
 
   const { demoBooks, renderedFileName, renderedFile, selectedBook } = editorStore;
@@ -8,8 +10,8 @@
 
 <div class="wrapper">
   <div class="section section--preview">
-    <h3>Live Preview</h3>
-    <div class="text">Select a sample book</div>
+    <h3>{strings.templates.livePreview.title}</h3>
+    <div class="text">{strings.templates.livePreview.selectBook}</div>
     <select class="dropdown" bind:value={$selectedBook}>
       {#each $demoBooks as demoBook}
         <option value={demoBook}>{demoBook.book.title} ({demoBook.book.author})</option>
@@ -17,10 +19,10 @@
     </select>
   </div>
   <div class="section">
-    <div class="text label">File name</div>
+    <div class="text label">{strings.templates.livePreview.fileName}</div>
     <pre>{$renderedFileName}</pre>
 
-    <div class="text label">File markup</div>
+    <div class="text label">{strings.templates.livePreview.fileMarkup}</div>
     <pre>{$renderedFile}</pre>
   </div>
 </div>
