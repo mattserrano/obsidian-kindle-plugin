@@ -10,7 +10,7 @@ export const STRINGS_EN = {
     syncModal: {
         yourHighlights: 'Your Kindle highlights',
         initialSync: 'Sync highlights',
-        syncingTitle: 'Syncing Kindle highlights and notes...',
+        syncingTitle: 'Syncing your highlights...',
         chooseSyncMethod: 'Choose a sync method...',
         books: 'Books',
         highlights: 'Highlights',
