@@ -37,7 +37,6 @@ export class SettingsTab extends PluginSettingTab {
     this.templatesEditor();
     this.highlightsFolder();
     this.baseFolder();
-    this.highlightsBase();
     this.amazonRegion();
     this.downloadBookMetadata();
     this.downloadHighResImages();
@@ -140,6 +139,17 @@ export class SettingsTab extends PluginSettingTab {
     new Setting(this.containerEl)
       .setName(strings.settings.highlightsBaseFolder.title)
       .setDesc(strings.settings.highlightsBaseFolder.description)
+      .addButton((button => {
+        button.setButtonText(strings.settings.highlightsBaseFile.button).onClick(async () => {
+          const baseFolder = get(settingsStore).baseFolder;
+          try {
+            await this.fileManager.createBaseFile(baseFolder);
+            ee.emit('createHighlightBaseSuccess');
+          } catch (error) {
+            ee.emit('createHighlightBaseFailure', String(error));
+          }
+        });
+      }))
       .addDropdown((dropdown) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
         const files = (this.app.vault.adapter as any).files as AdapterFile[];
@@ -154,23 +164,6 @@ export class SettingsTab extends PluginSettingTab {
           settingsStore.actions.setBasesFolder(value);
         });
       });
-  }
-
-  private highlightsBase(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.highlightsBaseFile.title)
-      .setDesc( strings.settings.highlightsBaseFile.description)
-      .addButton((button => {
-        button.setButtonText(strings.settings.highlightsBaseFile.button).onClick(async () => {
-          const baseFolder = get(settingsStore).baseFolder;
-          try {
-            await this.fileManager.createBaseFile(baseFolder);
-            ee.emit('createHighlightBaseSuccess');
-          } catch (error) {
-            ee.emit('createHighlightBaseFailure', String(error));
-          }
-        });
-      }));
   }
 
   private downloadBookMetadata(): void {

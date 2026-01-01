@@ -81,11 +81,9 @@ export const STRINGS_EN = {
         },
         highlightsBaseFolder: {
             title: 'Highlights base folder location',
-            description: 'Vault folder to use to view a base of all of your Kindle hightlights in one place.',
+            description: 'Vault folder to use to Create a customizable Obsidian base file in the Highlights folder location to display your Kindle highlights and metadata, in one place.',
         },
         highlightsBaseFile: {
-            title: 'Kindle highlights base file',
-            description: 'Create a customizable Obsidian base file in the Highlights folder location to display your Kindle highlights and metadata.',
             button: 'Create base file',
         },
         downloadBookMetadata: {
