@@ -114,11 +114,11 @@ export default class FileManager {
     remoteBook: Book,
     content: string,
     highlightsCount: number
-  ): Promise<void> {
-    const frontmatterContent = this.generateBookContent(remoteBook, content, highlightsCount);
-
+  ): Promise<string> {
     try {
-      await this.vault.modify(kindleFile.file, frontmatterContent);
+      return this.vault.process(kindleFile.file, () => {
+        return this.generateBookContent(remoteBook, content, highlightsCount);
+      });
     } catch (error) {
       console.error(`Error modifying e file (path="${kindleFile.file.path})"`);
       throw error;
