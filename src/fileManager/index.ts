@@ -40,7 +40,7 @@ views:
     cardSize: 150
     imageAspectRatio: 1.5
 `
-export default class FileManager {
+export default class KindleFileManager {
   constructor(private vault: Vault, private metadataCache: MetadataCache) {}
 
   public async createBaseFile(baseFolder: string): Promise<void> {

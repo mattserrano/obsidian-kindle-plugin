@@ -4,7 +4,7 @@ import { get } from 'svelte/store';
 import kindleIcon from '~/assets/kindleIcon.svg';
 import SyncModal from '~/components/syncModal';
 import { ee } from '~/eventEmitter';
-import FileManager from '~/fileManager';
+import KindleFileManager from '~/fileManager';
 import { registerNotifications } from '~/notifications';
 import { SettingsTab } from '~/settings';
 import { initializeStores, settingsStore } from '~/store';
@@ -13,14 +13,14 @@ import { SyncAmazon, SyncClippings, SyncManager } from '~/sync';
 addIcon('kindle', kindleIcon);
 
 export default class KindlePlugin extends Plugin {
-  private fileManager!: FileManager;
+  private fileManager!: KindleFileManager;
   private syncAmazon!: SyncAmazon;
   private syncClippings!: SyncClippings;
 
   public async onload(): Promise<void> {
     console.log('Kindle Highlights plugin: loading plugin', new Date().toLocaleString());
 
-    this.fileManager = new FileManager(this.app.vault, this.app.metadataCache);
+    this.fileManager = new KindleFileManager(this.app.vault, this.app.metadataCache);
     const syncManager = new SyncManager(this.fileManager);
 
     await initializeStores(this, this.fileManager);

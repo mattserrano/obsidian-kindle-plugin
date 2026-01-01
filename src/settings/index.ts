@@ -5,7 +5,7 @@ import { get } from 'svelte/store';
 import type KindlePlugin from '~/.';
 import { AmazonRegions, orderedAmazonRegions } from '~/amazonRegion';
 import { ee } from '~/eventEmitter';
-import type FileManager from '~/fileManager';
+import type KindleFileManager from '~/fileManager';
 import { strings } from '~/i18n';
 import type { AmazonAccountRegion } from '~/models';
 import { clearSessionData } from '~/scraper';
@@ -20,7 +20,7 @@ type AdapterFile = {
 };
 
 export class SettingsTab extends PluginSettingTab {
-  constructor(app: App, plugin: KindlePlugin, private fileManager: FileManager) {
+  constructor(app: App, plugin: KindlePlugin, private fileManager: KindleFileManager) {
     super(app, plugin);
     this.app = app;
   }

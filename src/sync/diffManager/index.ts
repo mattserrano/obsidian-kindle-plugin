@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import type FileManager from '~/fileManager';
+import type KindleFileManager from '~/fileManager';
 import type { Highlight } from '~/models';
 import type { Book, KindleFile } from '~/models';
 import { getRenderers } from '~/rendering';
@@ -23,7 +23,7 @@ export class DiffManager {
   private fileBuffer: StringBuffer;
 
   public static async create(
-    fileManager: FileManager,
+    fileManager: KindleFileManager,
     kindleFile: KindleFile
   ): Promise<DiffManager> {
     const manager = new DiffManager(fileManager, kindleFile);
@@ -31,7 +31,7 @@ export class DiffManager {
     return manager;
   }
 
-  private constructor(private fileManager: FileManager, private kindleFile: KindleFile) {}
+  private constructor(private fileManager: KindleFileManager, private kindleFile: KindleFile) {}
 
   private async load(): Promise<void> {
     const fileContents = await this.fileManager.readFile(this.kindleFile);

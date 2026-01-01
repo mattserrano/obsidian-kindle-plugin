@@ -1,6 +1,6 @@
 import { get } from 'svelte/store';
 
-import type FileManager from '~/fileManager';
+import type KindleFileManager from '~/fileManager';
 import type { Book, BookMetadata, Highlight, KindleFile } from '~/models';
 import { getRenderers } from '~/rendering';
 import { scrapeBookMetadata } from '~/scraper';
@@ -12,7 +12,7 @@ import { DiffManager } from '../diffManager';
 import { diffBooks } from './diffBooks';
 
 export default class SyncManager {
-  constructor(private fileManager: FileManager) {
+  constructor(private fileManager: KindleFileManager) {
     this.fileManager = fileManager;
   }
 
