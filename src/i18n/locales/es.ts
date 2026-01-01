@@ -79,7 +79,7 @@ export const STRINGS_ES = {
         },
         highlightsBaseFolder: {
             title: 'Ubicación de la carpeta base de notas',
-            description: 'Carpeta de bóveda para ver una base de todas tus notas de Kindle en un solo lugar.',
+            description: 'Carpeta de bóveda para crear un archivo base personalizable de Obsidian en la ubicación de la carpeta de notas para mostrar tus notas y metadatos de Kindle, en un solo lugar.',
         },
         highlightsBaseFile: {
             title: 'Archivo base de notas de Kindle',
