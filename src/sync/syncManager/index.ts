@@ -62,7 +62,7 @@ export default class SyncManager {
 
     const content = getRenderers().fileRenderer.render({ book, highlights, metadata });
 
-    await this.fileManager.createFile(book, content, highlights.length);
+    await this.fileManager.createFile(book, content, metadata, highlights.length);
   }
 
   private async syncMetadata(book: Book): Promise<BookMetadata> {

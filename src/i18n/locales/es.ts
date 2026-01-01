@@ -90,6 +90,10 @@ export const STRINGS_ES = {
             title: 'Descargar metadatos del libro',
             description: 'Descarga metadatos adicionales del libro desde Amazon.com. Desactiva para acelerar el proceso de sincronización.',
         },
+        useObsidianFileProperties: {
+            title: 'Usar propiedades de archivo de Obsidian',
+            description: 'Almacenar metadatos del libro en las propiedades de archivo de Obsidian (front matter).',
+        },
         downloadHighResImages: {
             title: 'Descargar imágenes de libro de alta resolución',
             description: 'Descarga imágenes de portada de libros de alta resolución cuando estén disponibles.',

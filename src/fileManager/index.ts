@@ -1,6 +1,8 @@
-import { MetadataCache, normalizePath, TAbstractFile, TFile, TFolder, Vault } from 'obsidian';
+import { FileManager, MetadataCache, normalizePath, TAbstractFile, TFile, TFolder, Vault } from 'obsidian';
+import { get } from 'svelte/store';
 
-import type { Book, KindleFile, KindleFrontmatter } from '~/models';
+import type { Book, BookMetadata, KindleFile, KindleFrontmatter } from '~/models';
+import { settingsStore } from '~/store';
 import { mergeFrontmatter } from '~/utils';
 
 import { bookFilePath, bookToFrontMatter, frontMatterToBook } from './mappers';
@@ -41,7 +43,7 @@ views:
     imageAspectRatio: 1.5
 `
 export default class KindleFileManager {
-  constructor(private vault: Vault, private metadataCache: MetadataCache) {}
+  constructor(private fileManager: FileManager, private vault: Vault, private metadataCache: MetadataCache) {}
 
   public async createBaseFile(baseFolder: string): Promise<void> {
     const filePath = normalizePath(`${baseFolder}/${HighlightsBaseFileName}`);
@@ -96,13 +98,21 @@ export default class KindleFileManager {
   public async createFile(
     book: Book,
     content: string,
+    metadata: BookMetadata,
     highlightsCount: number
   ): Promise<void> {
     const filePath = this.generateUniqueFilePath(book);
     const frontmatterContent = this.generateBookContent(book, content, highlightsCount);
 
     try {
-      await this.vault.create(filePath, frontmatterContent);
+      const file = await this.vault.create(filePath, frontmatterContent);
+      if (get(settingsStore).useObsidianFileProperties) {
+        const frontMatter = bookToFrontMatter(book, highlightsCount);
+        await this.fileManager.processFrontMatter(file, (fm) => {
+          Object.assign(fm, metadata);
+          Object.assign(fm, frontMatter);
+        });
+      }
     } catch (error) {
       console.error(`Error writing new file (path="${filePath})"`);
       throw error;

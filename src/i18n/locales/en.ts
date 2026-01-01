@@ -90,6 +90,10 @@ export const STRINGS_EN = {
             title: 'Download book metadata',
             description: 'Download extra book metadata from Amazon.com. Turn off to speed up the sync process.',
         },
+        useObsidianFileProperties: {
+            title: 'Use Obsidian file properties',
+            description: 'Store book metadata in Obsidian file properties (front matter).',
+        },
         downloadHighResImages: {
             title: 'Download high resolution book images',
             description: 'Download high resolution book cover images when available.',

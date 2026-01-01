@@ -38,6 +38,7 @@ export class SettingsTab extends PluginSettingTab {
     this.highlightsFolder();
     this.baseFolder();
     this.amazonRegion();
+    this.useObsidianFileProperties();
     this.downloadBookMetadata();
     this.downloadHighResImages();
     this.syncOnBoot();
@@ -164,6 +165,17 @@ export class SettingsTab extends PluginSettingTab {
           settingsStore.actions.setBasesFolder(value);
         });
       });
+  }
+
+  private useObsidianFileProperties(): void {
+    new Setting(this.containerEl)
+      .setName(strings.settings.useObsidianFileProperties.title)
+      .setDesc(strings.settings.useObsidianFileProperties.description)
+      .addToggle((toggle) =>
+        toggle.setValue(get(settingsStore).useObsidianFileProperties).onChange((value) => {
+          settingsStore.actions.useObsidianFileProperties(value);
+        })
+      );
   }
 
   private downloadBookMetadata(): void {
