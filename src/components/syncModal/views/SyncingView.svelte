@@ -4,16 +4,17 @@
   import { shortenTitle } from '~/utils';
   import { currentAmazonRegion } from '~/amazonRegion';
   import { store } from '../store';
+  import { strings } from '~/i18n';
 
   let progressMessage: string;
 
   $: if ($store.status === 'sync:login') {
     const region = currentAmazonRegion();
-    progressMessage = `Logging into ${region.hostname}`;
+    progressMessage = strings.syncModal.loggingInto + region.hostname;
   } else if ($store?.syncMode === 'amazon') {
-    progressMessage = 'Looking for new Kindle highlights to sync...';
+    progressMessage = strings.syncModal.amazonProgressMessage;
   } else {
-    progressMessage = 'Parsing your My Clippings files for highlights and notes...';
+    progressMessage = strings.syncModal.clippingsProgressMessage;
   }
 
   $: total = $store.jobs?.length;
@@ -23,10 +24,10 @@
 
 {#if $store.erroredJobs.length > 0}
   <div class="kp-syncmodal--error">
-    {`${$store.erroredJobs.length} books(s) could not be synced because of errors`}
+    {$store.erroredJobs.length}{strings.syncModal.syncingViewErrorMessage}
   </div>
   <div class="setting-item-control">
-    <button class="mod-cta" on:click={onDone}>OK</button>
+    <button class="mod-cta" on:click={onDone}>{strings.common.okButton}</button>
   </div>
 {:else}
   <div class="kp-syncmodal--sync-content">
@@ -39,7 +40,7 @@
         </span>
         <span class="kp-syncmodal--progress-total">/ {total}</span>
         <div class="kp-syncmodal--download">
-          Syncing
+          {strings.syncModal.syncing}
           <span class="kp-syncmodal--book-name">
             {shortenTitle($store.currentJob.book.title)}
           </span>
@@ -51,7 +52,7 @@
   </div>
 
   <div class="setting-item-control">
-    <button class="mod-muted" disabled>Syncing...</button>
+    <button class="mod-muted" disabled>{strings.syncModal.syncing}...</button>
   </div>
 {/if}
 

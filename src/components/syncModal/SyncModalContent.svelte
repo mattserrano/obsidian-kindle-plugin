@@ -7,7 +7,6 @@
   import { store } from './store';
   import type { SyncMode } from '~/models';
 
-  export let onUpgrade: () => void;
   export let onDone: () => void;
   export let onClick: (mode: SyncMode) => void;
 </script>
@@ -22,8 +21,6 @@
   <SyncingView {onDone} />
 {:else if $store.status === 'choose-sync-method'}
   <SyncButtons {onClick} />
-{:else if $store.status === 'upgrade-warning'}
-  <UpgradeView onClick={onUpgrade} />
 {:else if $store.status === 'first-time'}
   <FirstTimeView {onClick} />
 {/if}

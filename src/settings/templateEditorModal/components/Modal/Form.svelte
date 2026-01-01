@@ -8,6 +8,8 @@
   import type { TemplateEditorModalStore } from '../../store';
   import type { TemplateTab } from '../../types';
 
+  import { strings } from '~/i18n';
+
   import EditControls from './EditControls.svelte';
   import SettingItem from './SettingItem.svelte';
 
@@ -26,7 +28,7 @@
 </script>
 
 {#if $activeTab === 'file-name'}
-  <SettingItem name="File name template">
+  <SettingItem name="{strings.templates.fileName.title}">
     <div>
       <input
         type="text"
@@ -46,8 +48,8 @@
   </SettingItem>
 {:else if $activeTab === 'file'}
   <SettingItem
-    name="File template"
-    description="Template for a file of highlights. This can include YAML front matter"
+    name="{strings.templates.fileContent.title}"
+    description="{strings.templates.fileContent.description}"
   >
     <textarea
       bind:value={$fileTemplateField}
@@ -63,7 +65,10 @@
     />
   </SettingItem>
 {:else if $activeTab === 'highlight'}
-  <SettingItem name="Highlight template" description="Template for an individual highlight">
+  <SettingItem
+    name="{strings.templates.highlight.title}"
+    description="{strings.templates.highlight.description}"
+  >
     <textarea
       bind:value={$highlightTemplateField}
       class:error={$highlightTemplateFieldHasError}
