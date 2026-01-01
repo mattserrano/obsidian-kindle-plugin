@@ -15,6 +15,7 @@ type Settings = {
   highlightTemplate?: string;
   fileNameTemplate?: string;
   syncOnBoot: boolean;
+  useObsidianFileProperties: boolean;
   downloadBookMetadata: boolean;
   downloadHighResImages: boolean;
 };
@@ -26,6 +27,7 @@ const DEFAULT_SETTINGS: Settings = {
   lastSyncMode: 'amazon',
   isLoggedIn: false,
   syncOnBoot: false,
+  useObsidianFileProperties: false,
   downloadBookMetadata: true,
   downloadHighResImages: false,
 };
@@ -135,6 +137,13 @@ const createSettingsStore = () => {
     });
   };
 
+  const useObsidianFileProperties = (value: boolean) => {
+    store.update((state) => {
+      state.useObsidianFileProperties = value;
+      return state;
+    });
+  };
+
   const setDownloadBookMetadata = (value: boolean) => {
     store.update((state) => {
       state.downloadBookMetadata = value;
@@ -169,6 +178,7 @@ const createSettingsStore = () => {
       setFileNameTemplate,
       setHighlightTemplate,
       setSyncOnBoot,
+      useObsidianFileProperties,
       setDownloadBookMetadata,
       setDownloadHighResImages,
       setAmazonRegion,
