@@ -1,7 +1,7 @@
 import { FileManager, MetadataCache, normalizePath, TAbstractFile, TFile, TFolder, Vault } from 'obsidian';
 import { get } from 'svelte/store';
 
-import type { Book, BookMetadata, KindleFile, KindleFrontmatter } from '~/models';
+import { type Book, type BookMetadata, BookNoteTag, type KindleFile, type KindleFrontmatter } from '~/models';
 import { settingsStore } from '~/store';
 import { mergeFrontmatter } from '~/utils';
 
@@ -110,6 +110,10 @@ export default class KindleFileManager {
 
     try {
       const file = await this.vault.create(filePath, frontmatterContent);
+      await this.fileManager.processFrontMatter(file, (fm) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        fm['tags'] = BookNoteTag;
+      });
       if (get(settingsStore).useObsidianFileProperties) {
         const frontMatter = bookToFrontMatter(book, highlightsCount);
         await this.fileManager.processFrontMatter(file, (fm) => {
