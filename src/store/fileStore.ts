@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { readable } from 'svelte/store';
 
 import { ee } from '~/eventEmitter';
-import type FileManager from '~/fileManager';
+import type KindleFileManager from '~/fileManager';
 
 type FileStoreState = {
   fileCount: number;
@@ -15,9 +15,9 @@ const INITIAL_STATE: FileStoreState = {
 };
 
 const createFileStore = () => {
-  let _fileManager: FileManager;
+  let _fileManager: KindleFileManager;
 
-  const initialize = (fileManager: FileManager): void => {
+  const initialize = (fileManager: KindleFileManager): void => {
     _fileManager = fileManager;
   };
 
