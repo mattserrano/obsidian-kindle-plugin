@@ -9,39 +9,43 @@ import { bookFilePath, bookToFrontMatter, frontMatterToBook } from './mappers';
 
 const SyncingStateKey = 'kindle-sync';
 const HighlightsBaseFileName = 'Kindle Notes and Highlights.base'
-const BaseContent = `formulas:
-  cover: note["kindle-sync"]["bookImageUrl"]
-  title: note["kindle-sync"]["title"]
-  author: note["kindle-sync"]["author"]
-  asin: note["kindle-sync"]["asin"]
-  lastAnnotatedDate: note["kindle-sync"]["lastAnnotatedDate"]
-  highlightsCount: note["kindle-sync"]["highlightsCount"]
+const BaseContent = 
+`
+---
 properties:
-  formula.cover:
-    displayName: cover
-  formula.title:
+  title:
     displayName: title
-  formula.lastAnnotatedDate:
-    displayName: last annotated
   formula.highlightsCount:
     displayName: highlights
+  note.highlightsCount:
+    displayName: highlights
+  note.lastAnnotatedDate:
+    displayName: last annotated
+  note.authorUrl:
+    displayName: author url
+  note.asin:
+    displayName: ASIN
+  note.isbn:
+    displayName: ISBN
+  note.bookImageUrl:
+    displayName: book image url
 views:
   - type: cards
-    name: Table
+    name: Books
     filters:
       and:
         - file.hasProperty("kindle-sync")
     order:
-      - formula.title
-      - formula.title
-      - formula.author
-      - formula.asin
-      - formula.lastAnnotatedDate
-      - formula.highlightsCount
-    image: formula.cover
+      - title
+      - author
+      - asin
+      - lastAnnotatedDate
+      - highlightsCount
+    image: bookImageUrl
     cardSize: 150
     imageAspectRatio: 1.5
 `
+
 export default class KindleFileManager {
   constructor(private fileManager: FileManager, private vault: Vault, private metadataCache: MetadataCache) {}
 
