@@ -8,7 +8,7 @@ export const STRINGS_ES = {
     syncModal: {
         yourHighlights: 'Tus notas de Kindle',
         initialSync: 'Sincroniza notas',
-        syncingTitle: 'Sincronizando notas y destacados de Kindle...',
+        syncingTitle: 'Sincronizando tus notas...',
         chooseSyncMethod: 'Elige un método de sincronización...',
         books: 'Libros',
         highlights: 'Notas',
