@@ -1,18 +1,19 @@
 import { App, Modal } from 'obsidian';
 
+import { strings } from '~/i18n';
 import type { SyncMode } from '~/models';
 
 import { store, SyncModalState } from './store';
 import SyncModalContent from './SyncModalContent.svelte';
 
 const SyncModalTitle: Record<SyncModalState['status'], string> = {
-  'upgrade-warning': 'Breaking change notice',
-  'first-time': '',
-  idle: 'Your Kindle highlights',
-  'sync:fetching-books': 'Syncing data...',
-  'sync:login': 'Syncing data...',
-  'sync:syncing': 'Syncing data...',
-  'choose-sync-method': 'Choose a sync method...',
+  'upgrade-warning': strings.syncModal.breakingChangeNotice,
+  'first-time': strings.syncModal.initialSync,
+  'idle': strings.syncModal.yourHighlights,
+  'sync:fetching-books': strings.syncModal.syncingTitle,
+  'sync:login': strings.syncModal.syncingTitle,
+  'sync:syncing': strings.syncModal.syncingTitle,
+  'choose-sync-method': strings.syncModal.chooseSyncMethod,
 };
 
 type SyncModalProps = {

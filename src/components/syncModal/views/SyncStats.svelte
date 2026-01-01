@@ -1,5 +1,6 @@
 <script lang="ts">
   import { settingsStore, fileStore } from '~/store';
+  import { strings } from '~/i18n';
 
   const { moment } = window;
 
@@ -11,11 +12,11 @@
 <div class="kp-stats--wrapper">
   <div class="kp-stats--item-wrapper">
     <div class="kp-stats--item">
-      <div>Books</div>
+      <div>{strings.syncModal.books}</div>
       <div class="kp-stats--value">{numberWithCommas($fileStore.fileCount)}</div>
     </div>
     <div class="kp-stats--item">
-      <div>Highlights</div>
+      <div>{strings.syncModal.highlights}</div>
       <div class="kp-stats--value">{numberWithCommas($fileStore.highlightCount)}</div>
     </div>
   </div>

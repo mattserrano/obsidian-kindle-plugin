@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { Writable } from 'svelte/store';
 
+  import { strings } from '~/i18n';
+
   import hashIcon from '~/assets/hashIcon.svg';
 
   export let writableStore: Writable<string>;
@@ -10,7 +12,7 @@
 
 <div class="wrapper">
   {#if $writableStore == null}
-    <button on:click={() => writableStore.set(defaultValue)}>Override default template</button>
+    <button on:click={() => writableStore.set(defaultValue)}>{strings.templates.common.overrideDefaultTemplateButtonDefault}</button>
   {:else}
     <button on:click={() => writableStore.set(undefined)}>Reset to default template</button>
   {/if}
@@ -18,7 +20,7 @@
   <div
     on:click={showTipsModal}
     class="clickable-icon"
-    aria-label="See available template variables"
+    aria-label="{strings.templateEditorModal.editControlsAreaLabel}"
   >
     {@html hashIcon}
   </div>

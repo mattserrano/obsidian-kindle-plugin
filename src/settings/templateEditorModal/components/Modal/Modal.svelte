@@ -2,6 +2,7 @@
 <script lang="ts">
   import Form from './Form.svelte';
   import Preview from './Preview.svelte';
+  import { strings } from '~/i18n';
 
   import type { TemplateEditorModalStore } from '../../store';
   import type { TemplateTab } from '../../types';
@@ -17,28 +18,28 @@
 <div class="vertical-tabs-container tabs-container">
   <div class="vertical-tab-header tabs-container--left">
     <div class="vertical-tab-header-group">
-      <div class="vertical-tab-header-group-title">Templates</div>
+      <div class="vertical-tab-header-group-title">{strings.settings.templates.title}</div>
       <div class="vertical-tab-header-group-items">
         <div
           class:is-active={$activeTab == 'file-name'}
           on:click={() => activeTab.set('file-name')}
           class="vertical-tab-nav-item"
         >
-          File name
+          {strings.templates.fileName.pane}
         </div>
         <div
           class:is-active={$activeTab == 'file'}
           on:click={() => activeTab.set('file')}
           class="vertical-tab-nav-item"
         >
-          File content
+          {strings.templates.fileContent.pane}
         </div>
         <div
           class:is-active={$activeTab == 'highlight'}
           on:click={() => activeTab.set('highlight')}
           class="vertical-tab-nav-item"
         >
-          Highlight
+          {strings.templates.highlight.pane}
         </div>
       </div>
     </div>
@@ -54,15 +55,15 @@
     </div>
     <div class="row-buttons">
       {#if $hasErrors}
-        <span class="error">Template has a syntax error and cannot be compiled</span>
+        <span class="error">{strings.templateEditorModal.hasErrorsMessage}</span>
       {/if}
       <button
         on:click={onSave}
         class="mod-cta"
         class:error={$hasErrors}
-        disabled={!$isDirty || $hasErrors}>Save</button
+        disabled={!$isDirty || $hasErrors}>{strings.common.saveButton}</button
       >
-      <button on:click={onClose}>Cancel</button>
+      <button on:click={onClose}>{strings.common.cancelButton}</button>
     </div>
   </div>
 </div>
