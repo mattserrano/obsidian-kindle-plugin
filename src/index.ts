@@ -1,6 +1,7 @@
-import { addIcon, Plugin } from 'obsidian';
+import { addIcon, Plugin, setIcon } from 'obsidian';
 import { get } from 'svelte/store';
 
+import highlightSyncIcon from '~/assets/fileSyncIcon.svg';
 import kindleIcon from '~/assets/kindleIcon.svg';
 import SyncModal from '~/components/syncModal';
 import { ee } from '~/eventEmitter';
@@ -11,6 +12,7 @@ import { initializeStores, settingsStore } from '~/store';
 import { SyncAmazon, SyncClippings, SyncManager } from '~/sync';
 
 addIcon('kindle', kindleIcon);
+addIcon('highlight-sync', highlightSyncIcon);
 
 export default class KindlePlugin extends Plugin {
   private fileManager!: KindleFileManager;
@@ -31,6 +33,10 @@ export default class KindlePlugin extends Plugin {
     this.addRibbonIcon('kindle', 'Sync your Kindle highlights', async () => {
       await this.showSyncModal();
     });
+
+    const statusBar = this.addStatusBarItem();
+    setIcon(statusBar, 'highlight-sync');
+    statusBar.onclick = () => this.showSyncStatusDropdown();
 
     this.addCommand({
       id: 'kindle-sync',
@@ -79,6 +85,10 @@ export default class KindlePlugin extends Plugin {
       onOnlineSync: () => this.startAmazonSync(),
       onMyClippingsSync: () => this.syncClippings.startSync(),
     }).show();
+  }
+
+  private async showSyncStatusDropdown(): Promise<void> {
+    // show status bar
   }
 
   private async startAmazonSync(): Promise<void> {
