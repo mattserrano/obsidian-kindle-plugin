@@ -1,7 +1,7 @@
-import { addIcon, Plugin, setIcon } from 'obsidian';
+import { addIcon, Plugin, removeIcon, setIcon } from 'obsidian';
 import { get } from 'svelte/store';
 
-import highlightSyncIcon from '~/assets/fileSyncIcon.svg';
+import toolbarIcon from '~/assets/fileSyncIcon.svg';
 import kindleIcon from '~/assets/kindleIcon.svg';
 import SyncModal from '~/components/syncModal';
 import { ee } from '~/eventEmitter';
@@ -12,7 +12,7 @@ import { initializeStores, settingsStore } from '~/store';
 import { SyncAmazon, SyncClippings, SyncManager } from '~/sync';
 
 addIcon('kindle', kindleIcon);
-addIcon('highlight-sync', highlightSyncIcon);
+addIcon('kindle-highlight-toolbar', toolbarIcon);
 
 export default class KindlePlugin extends Plugin {
   private fileManager!: KindleFileManager;
@@ -36,7 +36,7 @@ export default class KindlePlugin extends Plugin {
     });
 
     this.statusBar = this.addStatusBarItem();
-    setIcon(this.statusBar, 'highlight-sync');
+    setIcon(this.statusBar, 'kindle-highlight-toolbar');
 
     this.addCommand({
       id: 'kindle-sync',
@@ -54,16 +54,49 @@ export default class KindlePlugin extends Plugin {
   }
 
   private registerStatusBar(): void {
+    // login states
     ee.on('loginComplete', (success: boolean) => {
       if (success) {
-        // make highlight-sync green
+        this.statusBar.style.display = '';
+        document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'green');
+
       } else {
-        // make icon red
+        document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'red');
       }
     });
 
+    // sync states
+
+    ee.on('syncSessionStart', () => {
+      this.statusBar.style.display = '';
+      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'green');
+    });
+
+    ee.on('syncSessionSuccess', () => {
+      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'currentColor');
+    });
+
+    ee.on('syncSessionFailure', () => {
+      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'red');
+    });
+
+    ee.on('resyncBook', () => {
+      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'green');
+    });
+    
+    ee.on('resyncComplete', () => {
+      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'currentColor');
+    });
+
+    ee.on('resyncFailure', () => {
+      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'red');
+    });
+
+    // logout state
+
     ee.on('logoutSuccess', () => {
-      this.statusBar.detach();
+      // detach status bar
+      this.statusBar.style.display = 'none';
     });
   }
 
