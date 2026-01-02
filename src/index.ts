@@ -1,4 +1,4 @@
-import { addIcon, Plugin, removeIcon, setIcon } from 'obsidian';
+import { addIcon, Plugin, setIcon, setTooltip } from 'obsidian';
 import { get } from 'svelte/store';
 
 import toolbarIcon from '~/assets/fileSyncIcon.svg';
@@ -54,6 +54,10 @@ export default class KindlePlugin extends Plugin {
   }
 
   private registerStatusBar(): void {
+    this.statusBar.addEventListener('mouseenter', () => {
+      this.showSyncTooltip();
+    });
+
     // login states
     ee.on('loginComplete', (success: boolean) => {
       if (success) {
@@ -66,7 +70,6 @@ export default class KindlePlugin extends Plugin {
     });
 
     // sync states
-
     ee.on('syncSessionStart', () => {
       this.statusBar.style.display = '';
       document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'green');
@@ -93,7 +96,6 @@ export default class KindlePlugin extends Plugin {
     });
 
     // logout state
-
     ee.on('logoutSuccess', () => {
       // detach status bar
       this.statusBar.style.display = 'none';
@@ -135,8 +137,17 @@ export default class KindlePlugin extends Plugin {
     }).show();
   }
 
-  private async showSyncStatusDropdown(): Promise<void> {
+  private showSyncTooltip(): void {
     // show status bar
+    setTooltip(
+      this.statusBar,
+      get(settingsStore).lastSyncDate
+        ? `Last sync: ${new Date(get(settingsStore).lastSyncDate).toLocaleString()}`
+        : 'Not yet synced',
+        {
+          placement: 'bottom',
+        }
+    );
   }
 
   private async startAmazonSync(): Promise<void> {
