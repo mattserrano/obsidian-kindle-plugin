@@ -18,6 +18,7 @@ export default class KindlePlugin extends Plugin {
   private fileManager!: KindleFileManager;
   private syncAmazon!: SyncAmazon;
   private syncClippings!: SyncClippings;
+  private statusBar: HTMLElement;
 
   public async onload(): Promise<void> {
     console.log('Kindle Highlights plugin: loading plugin', new Date().toLocaleString());
@@ -34,9 +35,8 @@ export default class KindlePlugin extends Plugin {
       await this.showSyncModal();
     });
 
-    const statusBar = this.addStatusBarItem();
-    setIcon(statusBar, 'highlight-sync');
-    statusBar.onclick = () => this.showSyncStatusDropdown();
+    this.statusBar = this.addStatusBarItem();
+    setIcon(this.statusBar, 'highlight-sync');
 
     this.addCommand({
       id: 'kindle-sync',
@@ -49,7 +49,22 @@ export default class KindlePlugin extends Plugin {
     this.addSettingTab(new SettingsTab(this.app, this, this.fileManager));
 
     registerNotifications();
+    this.registerStatusBar();
     this.registerEvents();
+  }
+
+  private registerStatusBar(): void {
+    ee.on('loginComplete', (success: boolean) => {
+      if (success) {
+        // make highlight-sync green
+      } else {
+        // make icon red
+      }
+    });
+
+    ee.on('logoutSuccess', () => {
+      this.statusBar.detach();
+    });
   }
 
   private registerEvents(): void {
