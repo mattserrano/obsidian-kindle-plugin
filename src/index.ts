@@ -145,7 +145,7 @@ export default class KindlePlugin extends Plugin {
         ? `Last sync: ${new Date(get(settingsStore).lastSyncDate).toLocaleString()}`
         : 'Not yet synced',
         {
-          placement: 'bottom',
+          placement: 'top',
         }
     );
   }
