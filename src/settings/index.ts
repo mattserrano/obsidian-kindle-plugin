@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { App, PluginSettingTab, Setting } from 'obsidian';
+import { App, PluginSettingTab, Setting, SettingGroup } from 'obsidian';
 import { get } from 'svelte/store';
 
 import type KindlePlugin from '~/.';
@@ -30,79 +30,61 @@ export class SettingsTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    if (get(settingsStore).isLoggedIn) {
-      this.logout();
-    }
-
-    this.templatesEditor();
-    this.highlightsFolder();
-    this.baseFolder();
-    this.amazonRegion();
-    this.useObsidianFileProperties();
-    this.downloadBookMetadata();
-    this.downloadHighResImages();
-    this.syncOnBoot();
+    this.accountSettings();
+    this.highlightSettings();
+    this.hightlightBaseSettings();
     this.sponsorMe();
   }
 
-  private templatesEditor(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.templates.title)
-      .setDesc(strings.settings.templates.description)
-      .addButton((button) => {
-        button
-          .setButtonText(strings.settings.templates.button)
-          .onClick(() => {
-            new TemplateEditorModal(this.app).show();
-          });
-      });
-  }
-
-  private logout(): void {
+  private accountSettings(): void {
     const syncMessage = get(settingsStore).lastSyncDate
-      ? `Last sync ${moment(get(settingsStore).lastSyncDate).fromNow()}`
-      : 'Sync has never run';
+      ? `${strings.settings.account.lastSync} ${moment(get(settingsStore).lastSyncDate).fromNow()}`
+      : `${strings.settings.account.neverSynced}`;
 
     const kindleFiles = this.fileManager.getKindleFiles();
 
     const descFragment = document.createRange().createContextualFragment(`
-      ${kindleFiles.length} book(s) synced<br/>
+      ${kindleFiles.length} ${strings.settings.account.booksSynced}<br/>
       ${syncMessage}
     `);
 
-    new Setting(this.containerEl)
-      .setName(strings.settings.account.title)
-      .setDesc(descFragment)
-      .addButton((button) => {
-        return button
-          .setButtonText(strings.settings.account.buttonDefault)
-          .setCta()
-          .onClick(async () => {
-            button.removeCta().setButtonText(strings.settings.account.buttonPressed).setDisabled(true);
+    const group = new SettingGroup(this.containerEl);
+    group.setHeading(strings.settings.groups.account);
 
-            ee.emit('startLogout');
+    if (get(settingsStore).isLoggedIn) {
+      group.addSetting(setting => {
+        setting.setName(strings.settings.account.title);
+        setting.setDesc(descFragment);
+        setting.addButton((button) => {
+          return button
+            .setButtonText(strings.settings.account.buttonDefault)
+            .setCta()
+            .onClick(async () => {
+              button.removeCta().setButtonText(strings.settings.account.buttonPressed).setDisabled(true);
 
-            try {
-              await clearSessionData();
+              ee.emit('startLogout');
 
-              settingsStore.actions.logout();
-            } catch (error) {
-              console.error('Error when trying to logout', error);
-              ee.emit('logoutFailure');
-            }
+              try {
+                await clearSessionData();
 
-            ee.emit('logoutSuccess');
+                settingsStore.actions.logout();
+              } catch (error) {
+                console.error('Error when trying to logout', error);
+                ee.emit('logoutFailure');
+              }
 
-            this.display(); // rerender
-          });
+              ee.emit('logoutSuccess');
+
+              this.display(); // rerender
+            });
+        });
       });
-  }
+    }
 
-  private amazonRegion(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.region.title)
-      .setDesc(strings.settings.region.description)
-      .addDropdown((dropdown) => {
+    group.addSetting(setting => {
+      setting.setName(strings.settings.region.title);
+      setting.setDesc(strings.settings.region.description);
+      setting.addDropdown((dropdown) => {
         orderedAmazonRegions().forEach((region: AmazonAccountRegion) => {
           const account = AmazonRegions[region];
           dropdown.addOption(region, `${account.name} (${account.hostname})`);
@@ -114,13 +96,47 @@ export class SettingsTab extends PluginSettingTab {
             settingsStore.actions.setAmazonRegion(value);
           });
       });
+    });
+
+    group.addSetting(setting => {
+      setting.setName(strings.settings.downloadBookMetadata.title)
+      setting.setDesc(strings.settings.downloadBookMetadata.description)
+      setting.addToggle((toggle) =>
+        toggle.setValue(get(settingsStore).downloadBookMetadata).onChange((value) => {
+          settingsStore.actions.setDownloadBookMetadata(value);
+        })
+      );
+    });
+
+    group.addSetting(setting => {
+      setting.setName(strings.settings.downloadHighResImages.title)
+      setting.setDesc(strings.settings.downloadHighResImages.description)
+      setting.addToggle((toggle) =>
+        toggle.setValue(get(settingsStore).downloadHighResImages).onChange((value) => {
+          settingsStore.actions.setDownloadHighResImages(value);
+        })
+      );
+    });
+
+    group.addSetting(setting => {
+      setting.setName(strings.settings.syncOnStartup.title)
+      setting.setDesc(strings.settings.syncOnStartup.description)
+      setting.addToggle((toggle) =>
+        toggle.setValue(get(settingsStore).syncOnBoot).onChange((value) => {
+          settingsStore.actions.setSyncOnBoot(value);
+        })
+      );
+    });
   }
 
-  private highlightsFolder(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.highlightsFolder.title)
-      .setDesc(strings.settings.highlightsFolder.descriotion)
-      .addDropdown((dropdown) => {
+  private highlightSettings(): void {
+    const group = new SettingGroup(this.containerEl);
+    group.setHeading(strings.settings.groups.highlights);
+    
+    group.addSetting(setting => {
+      setting.setName(strings.settings.highlightsFolder.title)
+      setting.setDesc(strings.settings.highlightsFolder.descriotion)
+      setting.addDropdown((dropdown) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
         const files = (this.app.vault.adapter as any).files as AdapterFile[];
         const folders = _.pickBy(files, (val) => {
@@ -134,13 +150,38 @@ export class SettingsTab extends PluginSettingTab {
           settingsStore.actions.setHighlightsFolder(value);
         });
       });
+    });
+
+    group.addSetting(setting => {
+      setting.setName(strings.settings.templates.title)
+      setting.setDesc(strings.settings.templates.description)
+      setting.addButton((button) => {
+        button
+          .setButtonText(strings.settings.templates.button)
+          .onClick(() => {
+            new TemplateEditorModal(this.app).show();
+          });
+      });
+    });
+
+    group.addSetting(setting => {
+      setting.setName(strings.settings.useObsidianFileProperties.title)
+      setting.setDesc(strings.settings.useObsidianFileProperties.description)
+      setting.addToggle((toggle) =>
+        toggle.setValue(get(settingsStore).useObsidianFileProperties).onChange((value) => {
+          settingsStore.actions.useObsidianFileProperties(value);
+        })
+      );
+    });
   }
 
-  private baseFolder(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.highlightsBaseFolder.title)
-      .setDesc(strings.settings.highlightsBaseFolder.description)
-      .addButton((button => {
+  private hightlightBaseSettings(): void {
+    const group = new SettingGroup(this.containerEl);
+    group.setHeading(strings.settings.groups.bases);
+    group.addSetting(setting => {
+      setting.setName(strings.settings.highlightsBaseFolder.title)
+      setting.setDesc(strings.settings.highlightsBaseFolder.description)
+      setting.addButton((button => {
         button.setButtonText(strings.settings.highlightsBaseFile.button).onClick(async () => {
           const baseFolder = get(settingsStore).baseFolder;
           try {
@@ -150,73 +191,32 @@ export class SettingsTab extends PluginSettingTab {
             ee.emit('createHighlightBaseFailure', String(error));
           }
         });
-      }))
-      .addDropdown((dropdown) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-        const files = (this.app.vault.adapter as any).files as AdapterFile[];
-        const folders = _.pickBy(files, (val) => {
-          return val.type === 'folder';
+      })).addDropdown((dropdown) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+          const files = (this.app.vault.adapter as any).files as AdapterFile[];
+          const folders = _.pickBy(files, (val) => {
+            return val.type === 'folder';
+          });
+
+          Object.keys(folders).forEach((val) => {
+            dropdown.addOption(val, val);
+          });
+          return dropdown.setValue(get(settingsStore).baseFolder).onChange((value) => {
+            settingsStore.actions.setBasesFolder(value);
+          });
         });
-
-        Object.keys(folders).forEach((val) => {
-          dropdown.addOption(val, val);
-        });
-        return dropdown.setValue(get(settingsStore).baseFolder).onChange((value) => {
-          settingsStore.actions.setBasesFolder(value);
-        });
-      });
-  }
-
-  private useObsidianFileProperties(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.useObsidianFileProperties.title)
-      .setDesc(strings.settings.useObsidianFileProperties.description)
-      .addToggle((toggle) =>
-        toggle.setValue(get(settingsStore).useObsidianFileProperties).onChange((value) => {
-          settingsStore.actions.useObsidianFileProperties(value);
-        })
-      );
-  }
-
-  private downloadBookMetadata(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.downloadBookMetadata.title)
-      .setDesc(strings.settings.downloadBookMetadata.description)
-      .addToggle((toggle) =>
-        toggle.setValue(get(settingsStore).downloadBookMetadata).onChange((value) => {
-          settingsStore.actions.setDownloadBookMetadata(value);
-        })
-      );
-  }
-
-  private downloadHighResImages(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.downloadHighResImages.title)
-      .setDesc(strings.settings.downloadHighResImages.description)
-      .addToggle((toggle) =>
-        toggle.setValue(get(settingsStore).downloadHighResImages).onChange((value) => {
-          settingsStore.actions.setDownloadHighResImages(value);
-        })
-      );
-  }
-
-  private syncOnBoot(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.syncOnStartup.title)
-      .setDesc(strings.settings.syncOnStartup.description)
-      .addToggle((toggle) =>
-        toggle.setValue(get(settingsStore).syncOnBoot).onChange((value) => {
-          settingsStore.actions.setSyncOnBoot(value);
-        })
-      );
+    });
   }
 
   private sponsorMe(): void {
-    new Setting(this.containerEl)
-      .setName(strings.settings.sponsor.title)
-      .setDesc(strings.settings.sponsor.description)
-      .addButton((bt) => {
+    const group = new SettingGroup(this.containerEl);
+    group.setHeading(strings.settings.groups.advanced);
+    group.addSetting(setting => {
+      setting.setName(strings.settings.sponsor.title);
+      setting.setDesc(strings.settings.sponsor.description);
+      setting.addButton((bt) => {
         bt.buttonEl.outerHTML = `<a href="https://www.buymeacoffee.com/hadynz"><img style="height: 35px;" src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hadynz&button_colour=BD5FFF&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00"></a>`;
       });
+    });
   }
 }
