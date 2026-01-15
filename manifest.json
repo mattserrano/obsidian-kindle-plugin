@@ -3,7 +3,7 @@
   "name": "Kindle Highlights",
   "version": "1.0.0",
   "description": "Sync your Kindle book highlights using your Amazon login or uploading your My Clippings file",
-  "minAppVersion": "0.10.2",
+  "minAppVersion": "0.15.0",
   "author": "Matthew Serrano",
   "authorUrl": "https://blankwire.net",
   "isDesktopOnly": true

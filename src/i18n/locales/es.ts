@@ -59,8 +59,18 @@ export const STRINGS_ES = {
         creationDateTip: 'Fecha de creación del destacado',
     },
     settings: {
+        groups: {
+            account: 'Cuenta de usuario',
+            highlights: 'Notas',
+            templates: 'Plantillas de notas',
+            bases: 'Base de libros',
+            advanced: 'Configuración avanzada',
+        },
         account: {
             title: 'Conectado a Amazon Kindle Reader',
+            lastSync: 'Última sincronización: ',
+            booksSynced: 'libro(s) sincronizado(s)',
+            neverSynced: 'La sincronización nunca se ha realizado',
             buttonDefault: 'Cerrar sesión',
             buttonPressed: 'Cerrando sesión...',
         },

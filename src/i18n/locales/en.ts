@@ -61,26 +61,36 @@ export const STRINGS_EN = {
         creationDateTip: 'Highlight creation date',
     },
     settings: {
+        groups: {
+            account: 'Amazon Account',
+            highlights: 'Highlights',
+            templates: 'Highlight templates',
+            bases: 'Book base',
+            advanced: 'Advanced',
+        },
         account: {
             title: 'Logged in to Amazon Kindle Reader',
+            lastSync: 'Last sync: ',
+            booksSynced: 'book(s) synced',
+            neverSynced: 'Sync has never run',
             buttonDefault: 'Sign out',
             buttonPressed: 'Signing out...',
         },
         region: {
-            title: 'Amazon Region',
+            title: 'Amazon region',
             description: 'Select the Amazon region for your Kindle account.',
         },
         templates: {
-            title: 'Templates',
+            title: 'Highlight templates',
             description: 'Manage and edit templates for file names and highlight note content.',
             button: 'Manage',
         },
         highlightsFolder: {
-            title: 'Highlights folder location',
+            title: 'Highlight folder location',
             descriotion: 'Vault folder to use for writing book highlight notes.',
         },
         highlightsBaseFolder: {
-            title: 'Highlights base folder location',
+            title: 'Highlight base folder location',
             description: 'Vault folder to use to Create a customizable Obsidian base file in the Highlights folder location to display your Kindle highlights and metadata, in one place.',
         },
         highlightsBaseFile: {
