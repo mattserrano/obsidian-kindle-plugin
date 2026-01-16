@@ -5,18 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1]
+
+### Changed
+
+- README CI/CD badges to point to this fork
+
 ## [Unreleased]
 
 This project was originally forked from [hadynz
 obsidian-kindle-plugin](https://github.com/hadynz/obsidian-kindle-plugin), and contains numerous bug fixes, security updates, and a few additional features made possible with more recent versions of Obsidian.
 
-The following is a list of changes based on Kindle Highlights v1.9.2, which was last released on Apr 2, 2023.
+The following is a list of changes based on [Kindle Highlights](https://github.com/hadynz/obsidian-kindle-plugin) v1.9.2, which was last released on Apr 2, 2023.
 
 ### Added
 
-- New statusbar icon to display the current highlight sync state when logged into Amazon
-- Statusbar tooltip to display the last sync time
-- New setting to toggle statusbar visibility
+- New status bar icon to display the current highlight sync state when logged into Amazon
+- Status bar tooltip to display the last sync time
+- New setting to toggle status bar visibility
 - Support for i18n translations (based on the user's global language selection)
 - Initial support for the Spanish language
 - New setting to quickly create a new "Book" Obsidian base file to view all of your highlights in one place
