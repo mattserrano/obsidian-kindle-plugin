@@ -1,5 +1,3 @@
-import { ok } from "assert";
-
 export const STRINGS_EN = {
     common: {
         saveButton: 'Save',
@@ -114,6 +112,10 @@ export const STRINGS_EN = {
         syncOnStartup: {
             title: 'Sync on startup',
             description: 'Automatically sync new Kindle highlights when Obsidian starts  (Amazon sync only)'
+        },
+        showHighlightsToolbar: {
+            title: 'Show highlight sync state in status bar',
+            description: 'Show the highlight note sync state in the status bar',
         },
         sponsor: {
             title: 'Sponsor',

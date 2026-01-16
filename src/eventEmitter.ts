@@ -23,6 +23,7 @@ interface MessageEvents {
   resyncFailure: (file: KindleFile, message: string) => void;
   createHighlightBaseSuccess: () => void;
   createHighlightBaseFailure: (message: string) => void;
+  toggleHighlightsToolbar: (show: boolean) => void;
 }
 
 export const ee = new EventEmitter() as TypedEmitter<MessageEvents>;

@@ -33,7 +33,7 @@ export class SettingsTab extends PluginSettingTab {
     this.accountSettings();
     this.highlightSettings();
     this.hightlightBaseSettings();
-    this.sponsorMe();
+    this.advanced();
   }
 
   private accountSettings(): void {
@@ -208,9 +208,21 @@ export class SettingsTab extends PluginSettingTab {
     });
   }
 
-  private sponsorMe(): void {
+  private advanced(): void {
     const group = new SettingGroup(this.containerEl);
     group.setHeading(strings.settings.groups.advanced);
+
+    group.addSetting(setting => {
+      setting.setName(strings.settings.showHighlightsToolbar.title);
+      setting.setDesc(strings.settings.showHighlightsToolbar.description);
+      setting.addToggle((toggle) =>
+        toggle.setValue(get(settingsStore).showHighlightsToolbar).onChange((value) => {
+          settingsStore.actions.setShowHighlightsToolbar(value);
+          ee.emit('toggleHighlightsToolbar', value);
+        })
+      );
+    });
+
     group.addSetting(setting => {
       setting.setName(strings.settings.sponsor.title);
       setting.setDesc(strings.settings.sponsor.description);

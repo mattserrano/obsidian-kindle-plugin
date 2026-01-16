@@ -18,6 +18,7 @@ type Settings = {
   useObsidianFileProperties: boolean;
   downloadBookMetadata: boolean;
   downloadHighResImages: boolean;
+  showHighlightsToolbar: boolean;
 };
 
 const DEFAULT_SETTINGS: Settings = {
@@ -30,6 +31,7 @@ const DEFAULT_SETTINGS: Settings = {
   useObsidianFileProperties: false,
   downloadBookMetadata: true,
   downloadHighResImages: false,
+  showHighlightsToolbar: true,
 };
 
 const createSettingsStore = () => {
@@ -165,6 +167,13 @@ const createSettingsStore = () => {
     });
   };
 
+  const setShowHighlightsToolbar = (value: boolean) => {
+    store.update((state) => {
+      state.showHighlightsToolbar = value;
+      return state;
+    });
+  };
+
   return {
     store,
     subscribe: store.subscribe,
@@ -177,6 +186,7 @@ const createSettingsStore = () => {
       setFileTemplate,
       setFileNameTemplate,
       setHighlightTemplate,
+      setShowHighlightsToolbar,
       setSyncOnBoot,
       useObsidianFileProperties,
       setDownloadBookMetadata,

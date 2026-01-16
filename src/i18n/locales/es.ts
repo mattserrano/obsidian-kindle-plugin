@@ -115,6 +115,10 @@ export const STRINGS_ES = {
             title: 'Sincronizar al iniciar',
             description: 'Sincroniza automáticamente las nuevas notas de Kindle cuando se inicia Obsidian (solo sincronización de Amazon)'
         },
+        showHighlightsToolbar: {
+            title: 'Mostrar estado de sincronización de notas en la barra de estado',
+            description: 'Mostrar el estado de sincronización de notas en la barra de estado',
+        },
         sponsor: {
             title: 'Patrocinar',
             description: '☕️ Cómprame un café'
