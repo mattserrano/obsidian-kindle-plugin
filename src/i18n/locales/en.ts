@@ -66,7 +66,7 @@ export const STRINGS_EN = {
             account: 'Amazon Account',
             highlights: 'Highlights',
             templates: 'Highlight templates',
-            bases: 'Book base',
+            bases: 'Book highlights base',
             advanced: 'Advanced',
         },
         account: {
@@ -91,8 +91,8 @@ export const STRINGS_EN = {
             descriotion: 'Vault folder to use for writing book highlight notes.',
         },
         highlightsBaseFolder: {
-            title: 'Highlight base folder location',
-            description: 'Vault folder to use to Create a customizable Obsidian base file in the Highlights folder location to display your Kindle highlights and metadata, in one place.',
+            title: 'Book highlights base folder location',
+            description: 'Vault folder to use to store the book highlights base files.',
         },
         highlightsBaseFile: {
             button: 'Create base file',
