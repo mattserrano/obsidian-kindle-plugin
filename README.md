@@ -1,7 +1,7 @@
 # Obsidian Kindle Plugin
 
-![CI/CD status](https://github.com/hadynz/obsidian-kindle-plugin/actions/workflows/main.yml/badge.svg)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/hadynz/obsidian-kindle-plugin)
+![CI/CD status](https://github.com/mattserrano/obsidian-kindle-plugin/actions/workflows/main.yml/badge.svg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/mattserrano/obsidian-kindle-plugin)
 
 Sync (and resync) your Kindle notes and highlights directly into your [Obsidian][1] vault. You
 can choose to sync using one of two methods:
