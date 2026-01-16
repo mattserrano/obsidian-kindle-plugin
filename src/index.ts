@@ -19,7 +19,7 @@ export default class KindlePlugin extends Plugin {
   private fileManager!: KindleFileManager;
   private syncAmazon!: SyncAmazon;
   private syncClippings!: SyncClippings;
-  private statusBar: HTMLElement;
+  private statusBar!: HTMLElement;
 
   public async onload(): Promise<void> {
     console.log('Kindle Highlights plugin: loading plugin', new Date().toLocaleString());
@@ -131,7 +131,7 @@ export default class KindlePlugin extends Plugin {
           item
             .setTitle(strings.fileMenu.resyncTitle)
             .setIcon('kindle')
-            .setDisabled(kindleFile.book.asin == null)
+            .setDisabled(kindleFile.book?.asin == null)
             .onClick(async () => {
               await this.syncAmazon.resync(kindleFile);
             });

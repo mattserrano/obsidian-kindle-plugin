@@ -20,11 +20,11 @@ export const bookToFrontMatter = (book: Book, highlightsCount: number): KindleFr
     bookId: book.id,
     title: book.title,
     author: book.author,
-    asin: book.asin,
+    asin: book.asin ?? '',
     lastAnnotatedDate: book.lastAnnotatedDate
       ? moment(book.lastAnnotatedDate).format('YYYY-MM-DD')
-      : null,
-    bookImageUrl: book.imageUrl,
+      : undefined,
+    bookImageUrl: book.imageUrl ?? '',
     highlightsCount,
   };
 };
@@ -38,7 +38,7 @@ export const frontMatterToBook = (frontmatter: KindleFrontmatter): Book => {
     asin: frontmatter.asin,
     lastAnnotatedDate: frontmatter.lastAnnotatedDate
       ? moment(frontmatter.lastAnnotatedDate, formats).toDate()
-      : null,
+      : undefined,
     imageUrl: frontmatter.bookImageUrl,
   };
 };

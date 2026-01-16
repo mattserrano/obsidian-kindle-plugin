@@ -31,10 +31,10 @@ type Context = {
   ctx: Record<string, string>;
 };
 
-function TrimAllEmptyLinesExtension(): void {
+function TrimAllEmptyLinesExtension(this: any): void {
   this.tags = ['trim'];
 
-  this.parse = function (parser, nodes) {
+  this.parse = function (parser: any, nodes: any) {
     const tok = parser.nextToken(); // Get the tag token
 
     // Parse the args and move after the block end.
@@ -49,7 +49,7 @@ function TrimAllEmptyLinesExtension(): void {
     return new nodes.CallExtension(this, 'run', args, [body]);
   };
 
-  this.run = function (_context, bodyCallback) {
+  this.run = function (_context: any, bodyCallback: any) {
     const rawCode: string = bodyCallback();
     const rawCodeNoLines = rawCode.replace(/(^[ \t]*\n)/gm, '').trim();
     return new nunjucks.runtime.SafeString(rawCodeNoLines);
@@ -63,7 +63,7 @@ function TrimAllEmptyLinesExtension(): void {
  * @param subclass
  * @returns
  */
-const getRecursiveValue = (subclass: SubClass): string => {
+const getRecursiveValue = (subclass: SubClass): string | null => {
   const firstChild = subclass.children?.[0];
 
   if (firstChild == null) {
@@ -79,10 +79,10 @@ const getRecursiveValue = (subclass: SubClass): string => {
  *   ...
  * {% endblockref %}
  */
-function BlockReferenceExtension(): void {
+function BlockReferenceExtension(this: any): void {
   this.tags = ['blockref'];
 
-  this.parse = function (parser, nodes) {
+  this.parse = function (parser: any, nodes: any) {
     const tok = parser.nextToken(); // Get the tag token
 
     // Parse the args and move after the block end.
@@ -94,7 +94,7 @@ function BlockReferenceExtension(): void {
     parser.advanceAfterBlockEnd();
 
     // Parse the name of the "needle" or template variable name that we will search for (e.g. "text" in `{% blockref "text", "id" %}`)
-    const needle = args.children[0].value;
+    const needle = args.children?.[0]?.value;
 
     // Find line number of where our needle is located in template
     const needleSubclass = body.children.find((c) => getRecursiveValue(c) === needle);
