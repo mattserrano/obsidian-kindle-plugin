@@ -121,7 +121,9 @@ export const STRINGS_ES = {
         },
         sponsor: {
             title: 'Patrocinar',
-            description: '¡Cómprame un café!',
+            description: 'Si disfrutas usando este plugin, considera comprarme un café para apoyar el desarrollo continuo.',
+            coffeeSponsorButtonText: 'Cómprame un café',
+            gitHubSponsorButtonText: 'Patrocíname en GitHub',
         }
     },
     templates: {
