@@ -136,6 +136,7 @@ describe('FileRenderer', () => {
 
 ## Highlights
 - highlighted text ^ref-H1
+
 - another piece of text ^ref-H2
 `;
 

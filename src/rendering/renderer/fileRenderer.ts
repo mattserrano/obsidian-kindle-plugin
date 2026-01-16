@@ -32,7 +32,7 @@ export default class FileRenderer {
 
     const renderedHighlights = highlights
       .map((h) => this.highlightRenderer.render(h, book))
-      .join('\n');
+      .join("\n\n");
 
     const templateVariables = fileTemplateVariables(entry, renderedHighlights);
 
