@@ -62,38 +62,36 @@ export default class KindlePlugin extends Plugin {
     // login states
     ee.on('loginComplete', (success: boolean) => {
       if (success) {
-        this.statusBar.style.display = '';
-        document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'green');
-
+        this.updateStatusBar('green');
       } else {
-        document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'red');
+        this.updateStatusBar('red');
       }
     });
 
     // sync states
     ee.on('syncSessionStart', () => {
       this.statusBar.style.display = '';
-      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'green');
+      this.updateStatusBar('green');
     });
 
     ee.on('syncSessionSuccess', () => {
-      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'currentColor');
+      this.updateStatusBar('currentColor');
     });
 
     ee.on('syncSessionFailure', () => {
-      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'red');
+      this.updateStatusBar('red');
     });
 
     ee.on('resyncBook', () => {
-      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'green');
+      this.updateStatusBar('green');
     });
     
     ee.on('resyncComplete', () => {
-      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'currentColor');
+      this.updateStatusBar('currentColor');
     });
 
     ee.on('resyncFailure', () => {
-      document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', 'red');
+      this.updateStatusBar('red');
     });
 
     // logout state
@@ -101,6 +99,24 @@ export default class KindlePlugin extends Plugin {
       // detach status bar
       this.statusBar.style.display = 'none';
     });
+
+    ee.on('toggleHighlightsToolbar', (show: boolean) => {
+      if (show) {
+        this.statusBar.style.display = '';
+      } else {
+        this.statusBar.style.display = 'none';
+      }
+    });
+  }
+
+  private updateStatusBar(color: string): void {
+    if (get(settingsStore).showHighlightsToolbar) {
+      this.statusBar.style.display = '';
+    } else {
+      this.statusBar.style.display = 'none';
+    }
+
+    document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', color);
   }
 
   private registerEvents(): void {
