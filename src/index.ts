@@ -6,6 +6,7 @@ import kindleIcon from '~/assets/kindleIcon.svg';
 import SyncModal from '~/components/syncModal';
 import { ee } from '~/eventEmitter';
 import KindleFileManager from '~/fileManager';
+import { strings } from '~/i18n';
 import { registerNotifications } from '~/notifications';
 import { SettingsTab } from '~/settings';
 import { initializeStores, settingsStore } from '~/store';
@@ -112,7 +113,7 @@ export default class KindlePlugin extends Plugin {
 
         menu.addItem((item) => {
           item
-            .setTitle('Resync Kindle highlights in file')
+            .setTitle(strings.fileMenu.resyncTitle)
             .setIcon('kindle')
             .setDisabled(kindleFile.book.asin == null)
             .onClick(async () => {
@@ -142,8 +143,8 @@ export default class KindlePlugin extends Plugin {
     setTooltip(
       this.statusBar,
       get(settingsStore).lastSyncDate
-        ? `Last sync: ${new Date(get(settingsStore).lastSyncDate).toLocaleString()}`
-        : 'Not yet synced',
+        ? strings.settings.account.lastSync + new Date(get(settingsStore).lastSyncDate).toLocaleString()
+        : strings.settings.account.neverSynced,
         {
           placement: 'top',
         }
