@@ -3,7 +3,7 @@ import { App, Modal } from 'obsidian';
 import { strings } from '~/i18n';
 import type { SyncMode } from '~/models';
 
-import { store, SyncModalState } from './store';
+import { store, type SyncModalState } from './store';
 import SyncModalContent from './SyncModalContent.svelte';
 
 const SyncModalTitle: Record<SyncModalState['status'], string> = {
@@ -22,7 +22,7 @@ type SyncModalProps = {
 };
 
 export default class SyncModal extends Modal {
-  private modalContent: SyncModalContent;
+  private modalContent!: SyncModalContent;
 
   constructor(app: App, private props: SyncModalProps) {
     super(app);

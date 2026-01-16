@@ -18,7 +18,7 @@ export default class FileRenderer {
     this.highlightRenderer = new HighlightRenderer(highlightTemplate);
   }
 
-  public validate(template: string): boolean {
+  public validate(template: string | null | undefined): boolean {
     try {
       this.nunjucks.renderString(template ?? '', { text: '' });
       return true;
