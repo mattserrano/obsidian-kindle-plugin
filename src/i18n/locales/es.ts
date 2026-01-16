@@ -5,6 +5,9 @@ export const STRINGS_ES = {
         discardButton: 'Descartar',
         okButton: 'OK',
     },
+    fileMenu: {
+        resyncTitle: 'Resincronizar notas de Kindle en el archivo'
+    },
     syncModal: {
         yourHighlights: 'Tus notas de Kindle',
         initialSync: 'Sincroniza notas',

@@ -7,6 +7,9 @@ export const STRINGS_EN = {
         discardButton: 'Discard',
         okButton: 'OK',
     },
+    fileMenu: {
+        resyncTitle: 'Resync Kindle highlights in file'
+    },
     syncModal: {
         yourHighlights: 'Your Kindle highlights',
         initialSync: 'Sync highlights',
