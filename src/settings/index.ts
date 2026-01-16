@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { App, PluginSettingTab, Setting, SettingGroup } from 'obsidian';
+import { App, PluginSettingTab, SettingGroup } from 'obsidian';
 import { get } from 'svelte/store';
 
 import type KindlePlugin from '~/.';
@@ -38,8 +38,8 @@ export class SettingsTab extends PluginSettingTab {
 
   private accountSettings(): void {
     const syncMessage = get(settingsStore).lastSyncDate
-      ? `${strings.settings.account.lastSync} ${moment(get(settingsStore).lastSyncDate).fromNow()}`
-      : `${strings.settings.account.neverSynced}`;
+      ? strings.settings.account.lastSync + moment(get(settingsStore).lastSyncDate).fromNow()
+      : strings.settings.account.neverSynced;
 
     const kindleFiles = this.fileManager.getKindleFiles();
 
