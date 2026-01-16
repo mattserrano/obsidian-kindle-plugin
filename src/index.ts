@@ -113,6 +113,7 @@ export default class KindlePlugin extends Plugin {
     if (get(settingsStore).showHighlightsToolbar) {
       this.statusBar.style.display = '';
     } else {
+      this.statusBar.style.padding = '0px';
       this.statusBar.style.display = 'none';
     }
 
