@@ -30,7 +30,7 @@ const scrapeLogoutUrl = async (): Promise<LogoutUrl> => {
 
   if (isStillLoggedIn) {
     const signoutHrefUrl = parseSignoutLink(dom);
-    logoutUrl = `${kindleReaderUrl}${signoutHrefUrl}`;
+    logoutUrl = kindleReaderUrl + signoutHrefUrl;
   }
 
   return {
