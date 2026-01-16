@@ -66,6 +66,9 @@ const createSyncModalStore = () => {
   });
 
   ee.on('resyncBook', (file: KindleFile) => {
+    if (!file.book) {
+      return;
+    }
     store.set({
       ...InitialState,
       status: 'sync:syncing',
@@ -88,6 +91,9 @@ const createSyncModalStore = () => {
   });
 
   ee.on('resyncFailure', (file: KindleFile, message: string) => {
+    if (!file.book) {
+      return;
+    }
     store.update((state) => ({
       ...state,
       status: 'idle',

@@ -12,7 +12,7 @@ export default class FileNameRenderer {
     this.nunjucks = new nunjucks.Environment(null, { autoescape: false });
   }
 
-  public validate(template: string): boolean {
+  public validate(template: string | null | undefined): boolean {
     try {
       this.nunjucks.renderString(template ?? '', {});
       return true;
