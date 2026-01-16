@@ -1,5 +1,5 @@
 .status-bar-item.plugin-obsidian-kindle-highlights-plugin svg path {
-  --kindle-hightlight-toolbar-fill: currentColor;
-  --kindle-highlight-toolbar-display: none;
-  fill: var(--kindle-hightlight-toolbar-fill);
+  --kindle-toolbar-fill: currentColor;
+  --kindle-toolbar-display: none;
+  fill: var(--kindle-toolbar-fill);
 }

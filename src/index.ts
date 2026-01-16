@@ -13,7 +13,7 @@ import { initializeStores, settingsStore } from '~/store';
 import { SyncAmazon, SyncClippings, SyncManager } from '~/sync';
 
 addIcon('kindle', kindleIcon);
-addIcon('kindle-highlight-toolbar', toolbarIcon);
+addIcon('kindle-toolbar', toolbarIcon);
 
 export default class KindlePlugin extends Plugin {
   private fileManager!: KindleFileManager;
@@ -37,7 +37,7 @@ export default class KindlePlugin extends Plugin {
     });
 
     this.statusBar = this.addStatusBarItem();
-    setIcon(this.statusBar, 'kindle-highlight-toolbar');
+    setIcon(this.statusBar, 'kindle-toolbar');
 
     this.addCommand({
       id: 'kindle-sync',
@@ -117,7 +117,7 @@ export default class KindlePlugin extends Plugin {
       this.statusBar.style.display = 'none';
     }
 
-    document.documentElement.style.setProperty('--kindle-hightlight-toolbar-fill', color);
+    document.documentElement.style.setProperty('--kindle-toolbar-fill', color);
   }
 
   private registerEvents(): void {
@@ -127,10 +127,9 @@ export default class KindlePlugin extends Plugin {
         if (kindleFile == null) {
           return;
         }
-
+        
         menu.addItem((item) => {
-          item
-            .setTitle(strings.fileMenu.resyncTitle)
+          item.setTitle(strings.fileMenu.resyncTitle)
             .setIcon('kindle')
             .setDisabled(kindleFile.book?.asin == null)
             .onClick(async () => {
