@@ -13,9 +13,8 @@ const isSameDate = (date1: Date | undefined, date2: Date | undefined): boolean =
 
 const updatedSince = (book: Book, lastSyncDate: Date): boolean => {
   if (book.lastAnnotatedDate != null) {
-    return moment(lastSyncDate)
-      .startOf('day')
-      .isSameOrBefore(book.lastAnnotatedDate);
+    const dayBeforeLastSync = moment(lastSyncDate).subtract(1, 'day').startOf('day');
+    return moment(book.lastAnnotatedDate).isSameOrAfter(dayBeforeLastSync);
   }
   return false;
 };
