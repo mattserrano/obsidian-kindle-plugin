@@ -119,7 +119,9 @@ export const STRINGS_EN = {
         },
         sponsor: {
             title: 'Sponsor',
-            description: 'Buy me a coffee!'
+            description: 'If you enjoy using this plugin, please consider buying me a coffee to support continued development!',
+            coffeeSponsorButtonText: 'Buy me a coffee',
+            gitHubSponsorButtonText: 'Sponsor me on GitHub',
         }
     },
     templates: {

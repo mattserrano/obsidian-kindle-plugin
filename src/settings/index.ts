@@ -13,6 +13,9 @@ import { settingsStore } from '~/store';
 
 import TemplateEditorModal from './templateEditorModal';
 
+const GH_SUPPORT_SPONSOR_URL = 'https://github.com/sponsors/mattserrano';
+const COFFEE_SUPPORT_SPONSOR_URL = 'https://www.buymeacoffee.com/mattserrano';
+
 const { moment } = window;
 
 type AdapterFile = {
@@ -210,6 +213,7 @@ export class SettingsTab extends PluginSettingTab {
 
   private advanced(): void {
     const group = new SettingGroup(this.containerEl);
+
     group.setHeading(strings.settings.groups.advanced);
 
     group.addSetting(setting => {
@@ -225,9 +229,12 @@ export class SettingsTab extends PluginSettingTab {
 
     group.addSetting(setting => {
       setting.setName(strings.settings.sponsor.title);
-      setting.setDesc('☕️ ' + strings.settings.sponsor.description);
+      setting.setDesc(strings.settings.sponsor.description);
       setting.addButton((bt) => {
-        bt.buttonEl.outerHTML = `<a href="https://www.buymeacoffee.com/hadynz"><img style="height: 35px;" src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hadynz&button_colour=BD5FFF&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00"></a>`;
+        bt.setButtonText('🤍 ' + strings.settings.sponsor.gitHubSponsorButtonText).onClick(() => window.open(GH_SUPPORT_SPONSOR_URL));
+      });
+      setting.addButton((bt) => {
+        bt.setButtonText('☕️ ' + strings.settings.sponsor.coffeeSponsorButtonText).onClick(() => window.open(COFFEE_SUPPORT_SPONSOR_URL));
       });
     });
   }
