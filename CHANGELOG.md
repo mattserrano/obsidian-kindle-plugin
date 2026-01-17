@@ -39,7 +39,7 @@ The following is a list of changes based on [Kindle Highlights](https://github.c
 
 ### Deprecated
 
-- The `kindle-sync` frontmatter property is still currently written to notes. Any previous user-created bases that
+- The `kindle-sync` frontmatter property is still currently written to notes, but may be deprecatd in the future; bases should use Obsidian frontmatter properties instead of `kindle-sync` note properties (such as `note["kindle-sync"]["author"]`)
 
 ### Removed
 
