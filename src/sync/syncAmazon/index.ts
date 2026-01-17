@@ -8,13 +8,13 @@ export default class SyncAmazon {
   constructor(private syncManager: SyncManager) {}
 
   public async startSync(): Promise<void> {
-    ee.emit('syncSessionStart', 'amazon');
-
     const success = await this.login();
 
     if (!success) {
       return; // Do nothing...
     }
+
+    ee.emit('syncSessionStart', 'amazon');
 
     try {
       ee.emit('fetchingBooks');
