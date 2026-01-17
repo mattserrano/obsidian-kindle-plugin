@@ -1,7 +1,9 @@
 import { addIcon, Plugin, setIcon, setTooltip } from 'obsidian';
 import { get } from 'svelte/store';
 
-import toolbarIcon from '~/assets/fileSyncIcon.svg';
+import circleExclamationIcon from '~/assets/circleExclamation.svg';
+import circleTickIcon from '~/assets/circleTick.svg';
+import fileSyncIcon from '~/assets/fileSyncIcon.svg';
 import kindleIcon from '~/assets/kindleIcon.svg';
 import SyncModal from '~/components/syncModal';
 import { ee } from '~/eventEmitter';
@@ -12,8 +14,10 @@ import { SettingsTab } from '~/settings';
 import { initializeStores, settingsStore } from '~/store';
 import { SyncAmazon, SyncClippings, SyncManager } from '~/sync';
 
+addIcon('circle-exclamation', circleExclamationIcon);
+addIcon('circle-tick', circleTickIcon);
+addIcon('file-sync', fileSyncIcon);
 addIcon('kindle', kindleIcon);
-addIcon('kindle-toolbar', toolbarIcon);
 
 export default class KindlePlugin extends Plugin {
   private fileManager!: KindleFileManager;
@@ -37,7 +41,8 @@ export default class KindlePlugin extends Plugin {
     });
 
     this.statusBar = this.addStatusBarItem();
-    setIcon(this.statusBar, 'kindle-toolbar');
+    this.statusBar.style.padding = '0px';
+    setIcon(this.statusBar, 'file-sync');
 
     this.addCommand({
       id: 'kindle-sync',
@@ -62,36 +67,36 @@ export default class KindlePlugin extends Plugin {
     // login states
     ee.on('loginComplete', (success: boolean) => {
       if (success) {
-        this.updateStatusBar('green');
+        this.updateStatusBar('file-sync', 'currentColor');
       } else {
-        this.updateStatusBar('red');
+        this.updateStatusBar('circle-exclamation', 'red');
       }
     });
 
     // sync states
     ee.on('syncSessionStart', () => {
       this.statusBar.style.display = '';
-      this.updateStatusBar('green');
+      this.updateStatusBar('file-sync', 'green');
     });
 
     ee.on('syncSessionSuccess', () => {
-      this.updateStatusBar('currentColor');
+      this.updateStatusBar('circle-tick', 'currentColor');
     });
 
     ee.on('syncSessionFailure', () => {
-      this.updateStatusBar('red');
+      this.updateStatusBar('circle-exclamation', 'red');
     });
 
     ee.on('resyncBook', () => {
-      this.updateStatusBar('green');
+      this.updateStatusBar('file-sync', 'green');
     });
     
     ee.on('resyncComplete', () => {
-      this.updateStatusBar('currentColor');
+      this.updateStatusBar('circle-tick', 'currentColor');
     });
 
     ee.on('resyncFailure', () => {
-      this.updateStatusBar('red');
+      this.updateStatusBar('circle-exclamation', 'red');
     });
 
     // logout state
@@ -109,14 +114,14 @@ export default class KindlePlugin extends Plugin {
     });
   }
 
-  private updateStatusBar(color: string): void {
+  private updateStatusBar(icon: string, color: string): void {
     if (get(settingsStore).showHighlightsToolbar) {
       this.statusBar.style.display = '';
     } else {
-      this.statusBar.style.padding = '0px';
       this.statusBar.style.display = 'none';
     }
-
+    
+    setIcon(this.statusBar, icon);
     document.documentElement.style.setProperty('--kindle-toolbar-fill', color);
   }
 
