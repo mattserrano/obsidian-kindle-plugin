@@ -9,7 +9,7 @@ export type AuthorsTemplateVariables = {
   author: string;
   authorsLastNames: string;
   firstAuthorFirstName?: string;
-  firstAuthorLastName: string;
+  firstAuthorLastName: string | undefined;
   secondAuthorFirstName?: string;
   secondAuthorLastName?: string;
 };
@@ -28,12 +28,12 @@ type FileTemplateVariables = CommonTemplateVariables & {
   url?: string;
   imageUrl?: string;
   lastAnnotatedDate?: string;
-  appLink?: string;
+  appLink?: string | null;
   isbn?: string;
-  pages: string;
-  publicationDate: string;
-  publisher: string;
-  authorUrl: string;
+  pages?: string;
+  publicationDate?: string;
+  publisher?: string;
+  authorUrl?: string;
   highlightsCount: number;
   highlights: string;
 };
@@ -46,16 +46,16 @@ type HighlightTemplateVariables = CommonTemplateVariables & {
   note?: string;
   color?: 'pink' | 'blue' | 'yellow' | 'orange';
   createdDate?: Date;
-  appLink?: string;
+  appLink?: string | null;
 };
 
 export const authorsTemplateVariables = (author: string): AuthorsTemplateVariables => {
   const authors = parseAuthors(author);
 
-  let authorsLastNames = authors[0].lastName;
+  let authorsLastNames = authors[0].lastName ?? '';
 
   if (authors.length == 2) {
-    authorsLastNames += `-${authors[1].lastName}`;
+    authorsLastNames += `-${authors[1].lastName ?? ''}`;
   } else if (authors.length > 2) {
     authorsLastNames += `_et_al`;
   }
@@ -64,7 +64,7 @@ export const authorsTemplateVariables = (author: string): AuthorsTemplateVariabl
     author: author,
     authorsLastNames,
     firstAuthorFirstName: authors[0].firstName,
-    firstAuthorLastName: authors[0].lastName,
+    firstAuthorLastName: authors[0].lastName ?? '',
     secondAuthorFirstName: authors[1]?.firstName,
     secondAuthorLastName: authors[1]?.lastName,
   };
@@ -72,10 +72,10 @@ export const authorsTemplateVariables = (author: string): AuthorsTemplateVariabl
 
 export const commonTemplateVariables = (book: Partial<Book>): FileNameTemplateVariables => {
   return {
-    title: shortenTitle(book.title),
-    longTitle: book.title,
+    title: shortenTitle(book.title ?? ''),
+    longTitle: book.title ?? '',
     lastAnnotatedDate: moment(book.lastAnnotatedDate).format('YYYY-MM-DD').toString(),
-    ...authorsTemplateVariables(book.author),
+    ...authorsTemplateVariables(book.author ?? ''),
   };
 };
 
@@ -85,18 +85,18 @@ export const fileNameTemplateVariables = (book: Partial<Book>): FileNameTemplate
 
 export const highlightTemplateVariables = (
   highlight: Highlight,
-  book: Book
+  book: Book,
 ): HighlightTemplateVariables => {
   return {
     ...highlight,
     ...commonTemplateVariables(book),
-    appLink: generateAppLink(book.asin, highlight),
+    appLink: generateAppLink(book.asin ?? '', highlight),
   };
 };
 
 export const fileTemplateVariables = (
   entry: BookHighlight,
-  renderedHighlights: string
+  renderedHighlights: string,
 ): FileTemplateVariables => {
   const { book, highlights, metadata } = entry;
 
@@ -108,7 +108,7 @@ export const fileTemplateVariables = (
     lastAnnotatedDate: book.lastAnnotatedDate
       ? moment(book.lastAnnotatedDate).format('YYYY-MM-DD').toString()
       : undefined,
-    appLink: generateAppLink(book.asin),
+    appLink: generateAppLink(book.asin ?? ''),
     isbn: metadata?.isbn,
     pages: metadata?.pages,
     publicationDate: metadata?.publicationDate,

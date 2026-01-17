@@ -5,9 +5,12 @@ import type { TemplateTab } from '../../types';
 import Modal from './Modal.svelte';
 
 export class InfoModal extends ObsidianModal {
-  private modal: Modal;
+  private modal!: Modal;
 
-  constructor(app: App, private template: TemplateTab) {
+  constructor(
+    app: App,
+    private template: TemplateTab,
+  ) {
     super(app);
   }
 

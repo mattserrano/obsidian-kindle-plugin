@@ -1,8 +1,17 @@
 module.exports = {
+  preset: 'ts-jest/presets/js-with-ts',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: {
+          verbatimModuleSyntax: false,
+        },
+      },
+    ],
     '^.+\\.njk?$': 'jest-text-transformer',
   },
+  transformIgnorePatterns: ['node_modules/(?!(svelte)/)'],
   moduleNameMapper: {
     '^~/(.*)': '<rootDir>/src/$1',
   },

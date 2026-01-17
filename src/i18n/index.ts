@@ -6,24 +6,24 @@ import { STRINGS_ES } from './locales/es';
 type TranslationStrings = typeof STRINGS_EN;
 
 const LANGUAGE_MAP: Record<string, TranslationStrings> = {
-    en: STRINGS_EN,
-    es: STRINGS_ES
+  en: STRINGS_EN,
+  es: STRINGS_ES,
 };
 
 function getObsidianLanguage(): string {
-    const locale = getCurrentLanguage();
+  const locale = getCurrentLanguage();
 
-    // Check if the detected language is supported
-    if (locale && locale in LANGUAGE_MAP) {
-        return locale;
-    }
+  // Check if the detected language is supported
+  if (locale && locale in LANGUAGE_MAP) {
+    return locale;
+  }
 
-    // Fallback to English
-    return 'en';
+  // Fallback to English
+  return 'en';
 }
 
 export function getCurrentLanguage(): string {
-    return getLanguage();
+  return getLanguage();
 }
 
 export const strings: TranslationStrings = LANGUAGE_MAP[getObsidianLanguage()];

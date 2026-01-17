@@ -13,9 +13,7 @@ const isSameDate = (date1: Date | undefined, date2: Date | undefined): boolean =
 
 const updatedSince = (book: Book, lastSyncDate: Date): boolean => {
   if (book.lastAnnotatedDate != null) {
-    return moment(lastSyncDate)
-      .startOf('day')
-      .isSameOrBefore(book.lastAnnotatedDate);
+    return moment(lastSyncDate).startOf('day').isSameOrBefore(book.lastAnnotatedDate);
   }
   return false;
 };
@@ -23,19 +21,21 @@ const updatedSince = (book: Book, lastSyncDate: Date): boolean => {
 export const diffBooks = (
   remoteBooks: Book[],
   vaultBooks: Book[],
-  lastSyncDate: Date
+  lastSyncDate: Date | undefined,
 ): Book[] => {
   const newBooks = remoteBooks.filter((remote) => !vaultBooks.some((v) => isEqual(v, remote)));
 
   const diffAnnotatedDates = remoteBooks.filter((remote) =>
     vaultBooks.some(
-      (v) => isEqual(v, remote) && !isSameDate(remote.lastAnnotatedDate, v.lastAnnotatedDate)
-    )
+      (v) => isEqual(v, remote) && !isSameDate(remote.lastAnnotatedDate, v.lastAnnotatedDate),
+    ),
   );
 
-  const updatedBooks = remoteBooks.filter((remote) =>
-    vaultBooks.some((v) => isEqual(v, remote) && updatedSince(remote, lastSyncDate))
-  );
+  const updatedBooks = lastSyncDate
+    ? remoteBooks.filter((remote) =>
+        vaultBooks.some((v) => isEqual(v, remote) && updatedSince(remote, lastSyncDate)),
+      )
+    : [];
 
   return _.uniqBy([...newBooks, ...diffAnnotatedDates, ...updatedBooks], (book) => book.id);
 };

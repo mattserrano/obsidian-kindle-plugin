@@ -31,9 +31,11 @@ type Context = {
   ctx: Record<string, string>;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function TrimAllEmptyLinesExtension(this: any): void {
   this.tags = ['trim'];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   this.parse = function (parser: any, nodes: any) {
     const tok = parser.nextToken(); // Get the tag token
 
@@ -49,6 +51,7 @@ function TrimAllEmptyLinesExtension(this: any): void {
     return new nodes.CallExtension(this, 'run', args, [body]);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   this.run = function (_context: any, bodyCallback: any) {
     const rawCode: string = bodyCallback();
     const rawCodeNoLines = rawCode.replace(/(^[ \t]*\n)/gm, '').trim();
@@ -79,9 +82,11 @@ const getRecursiveValue = (subclass: SubClass): string | null => {
  *   ...
  * {% endblockref %}
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function BlockReferenceExtension(this: any): void {
   this.tags = ['blockref'];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   this.parse = function (parser: any, nodes: any) {
     const tok = parser.nextToken(); // Get the tag token
 
@@ -109,7 +114,7 @@ function BlockReferenceExtension(this: any): void {
     context: Context,
     _needle: keyof Context['ctx'],
     highlightId: keyof Context['ctx'],
-    bodyCallback: () => string
+    bodyCallback: () => string,
   ) {
     const renderedTemplate: string = bodyCallback();
 
@@ -121,6 +126,7 @@ function BlockReferenceExtension(this: any): void {
     const buffer = sb(renderedTemplate);
 
     const blockRef = `${HighlightIdBlockRefPrefix}${context.ctx[highlightId]}`;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const blockRefSuffixLine = `${buffer.getLine(this.lineNumber + 1)} ${blockRef}`;
 
     buffer.replace({ line: this.lineNumber, content: blockRefSuffixLine });

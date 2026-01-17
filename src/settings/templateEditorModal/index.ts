@@ -7,7 +7,8 @@ import { settingsStore } from '~/store';
 
 import Modal from './components/Modal/Modal.svelte';
 import { InfoModal } from './components/TipsModal/InfoModal';
-import store, { TemplateEditorModalStore } from './store';
+import type { TemplateEditorModalStore } from './store';
+import store from './store';
 import type { TemplateTab } from './types';
 
 const { dialog } = remote;
@@ -24,7 +25,7 @@ const showUnsavedChangesWarningDialog = async () => {
 };
 
 export default class TemplateEditorModal extends ObsidianModal {
-  private modalContent: Modal;
+  private modalContent!: Modal;
   private modalStore: TemplateEditorModalStore;
 
   constructor(app: App) {

@@ -1,16 +1,29 @@
-import { FileManager, MetadataCache, normalizePath, TAbstractFile, TFile, TFolder, Vault } from 'obsidian';
+import {
+  FileManager,
+  MetadataCache,
+  normalizePath,
+  TAbstractFile,
+  TFile,
+  TFolder,
+  Vault,
+} from 'obsidian';
 import { get } from 'svelte/store';
 
-import { type Book, type BookMetadata, BookNoteTag, type KindleFile, type KindleFrontmatter } from '~/models';
+import {
+  type Book,
+  type BookMetadata,
+  type KindleFile,
+  type KindleFrontmatter,
+  BookNoteTag,
+} from '~/models';
 import { settingsStore } from '~/store';
 import { mergeFrontmatter } from '~/utils';
 
 import { bookFilePath, bookToFrontMatter, frontMatterToBook } from './mappers';
 
 const SyncingStateKey = 'kindle-sync';
-const HighlightsBaseFileName = 'Kindle Notes and Highlights.base'
-const BaseContent = 
-`
+const HighlightsBaseFileName = 'Kindle Notes and Highlights.base';
+const BaseContent = `
 ---
 properties:
   title:
@@ -44,10 +57,14 @@ views:
     image: bookImageUrl
     cardSize: 150
     imageAspectRatio: 1.5
-`
+`;
 
 export default class KindleFileManager {
-  constructor(private fileManager: FileManager, private vault: Vault, private metadataCache: MetadataCache) {}
+  constructor(
+    private fileManager: FileManager,
+    private vault: Vault,
+    private metadataCache: MetadataCache,
+  ) {}
 
   public async createBaseFile(baseFolder: string): Promise<void> {
     const filePath = normalizePath(`${baseFolder}/${HighlightsBaseFileName}`);
@@ -102,8 +119,8 @@ export default class KindleFileManager {
   public async createFile(
     book: Book,
     content: string,
-    metadata: BookMetadata,
-    highlightsCount: number
+    metadata: BookMetadata | undefined,
+    highlightsCount: number,
   ): Promise<void> {
     const filePath = this.generateUniqueFilePath(book);
     const frontmatterContent = this.generateBookContent(book, content, highlightsCount);
@@ -131,7 +148,7 @@ export default class KindleFileManager {
     kindleFile: KindleFile,
     remoteBook: Book,
     content: string,
-    highlightsCount: number
+    highlightsCount: number,
   ): Promise<string> {
     try {
       return this.vault.process(kindleFile.file, () => {

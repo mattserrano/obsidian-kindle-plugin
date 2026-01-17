@@ -1,6 +1,12 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'simple-import-sort'],
+  plugins: [
+    '@typescript-eslint',
+    'simple-import-sort',
+    'import',
+    'unused-imports',
+    'prettier',
+  ],
   env: {
     node: true,
   },
@@ -8,9 +14,11 @@ module.exports = {
     {
       files: ['*.ts'],
       extends: [
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:@typescript-eslint/recommended-type-checked',
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
+        'plugin:prettier/recommended',
+        'prettier',
       ],
       parserOptions: {
         project: ['./tsconfig.json'],
@@ -36,9 +44,24 @@ module.exports = {
             ],
           },
         ],
+        'simple-import-sort/exports': 'error',
+        'import/first': 'error',
+        'import/newline-after-import': 'error',
+        'import/no-duplicates': 'error',
+        'unused-imports/no-unused-imports': 'error',
+        'unused-imports/no-unused-vars': [
+          'warn',
+          {
+            vars: 'all',
+            varsIgnorePattern: '^_',
+            args: 'after-used',
+            argsIgnorePattern: '^_',
+          },
+        ],
         '@typescript-eslint/no-unsafe-assignment': 'warn',
         '@typescript-eslint/no-unsafe-call': 'warn',
         '@typescript-eslint/no-unsafe-member-access': 'warn',
+        'prettier/prettier': 'error',
       },
     },
   ],

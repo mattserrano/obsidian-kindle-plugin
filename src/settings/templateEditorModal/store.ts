@@ -1,4 +1,5 @@
-import { derived, get, Readable, readable, Writable, writable } from 'svelte/store';
+import type { Readable, Writable } from 'svelte/store';
+import { derived, get, readable, writable } from 'svelte/store';
 
 import type { BookHighlight } from '~/models';
 import {
@@ -55,7 +56,7 @@ export default (): TemplateEditorModalStore => {
       } catch (error) {
         return InvalidRender;
       }
-    }
+    },
   );
 
   const renderedFile = derived(
@@ -70,7 +71,7 @@ export default (): TemplateEditorModalStore => {
       } catch (error) {
         return InvalidRender;
       }
-    }
+    },
   );
 
   const isDirty = derived(
@@ -87,7 +88,7 @@ export default (): TemplateEditorModalStore => {
         fileTemplate !== $fileTemplateField ||
         highlightTemplate !== $highlightTemplateField
       );
-    }
+    },
   );
 
   fileNameTemplateField.subscribe((value) => {
@@ -117,7 +118,7 @@ export default (): TemplateEditorModalStore => {
         $fileTemplateFieldHasError ||
         $highlightTemplateFieldHasError
       );
-    }
+    },
   );
 
   return {

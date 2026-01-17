@@ -18,7 +18,7 @@ describe('HighlightRenderer', () => {
 
     it.each([null, undefined])('should return true for %s template', (template) => {
       const renderer = new HighlightRenderer('');
-      expect(renderer.validate(template)).toBe(true);
+      expect(renderer.validate(template ?? undefined)).toBe(true);
     });
   });
 
@@ -71,7 +71,7 @@ describe('HighlightRenderer', () => {
 
           const renderer = new HighlightRenderer(template);
           expect(renderer.render(highlight, book)).toBe(expected);
-        }
+        },
       );
     });
 
@@ -84,7 +84,7 @@ describe('HighlightRenderer', () => {
 
       const renderer = new HighlightRenderer('{{text}} - {{appLink}}');
       expect(renderer.render(highlight, myBook)).toMatch(
-        new RegExp('^highlighted text - kindle://(.*) \\^ref-.*$')
+        new RegExp('^highlighted text - kindle://(.*) \\^ref-.*$'),
       );
     });
 
@@ -98,7 +98,7 @@ describe('HighlightRenderer', () => {
 
       expect(renderer.render(highlight, book)).toMatch(
         // eslint-disable-next-line no-regex-spaces
-        new RegExp('^highlighted text -  \\^ref-.*$')
+        new RegExp('^highlighted text -  \\^ref-.*$'),
       );
     });
 
@@ -113,7 +113,7 @@ describe('HighlightRenderer', () => {
       const renderer = new HighlightRenderer(templateWithTrailingLines);
 
       expect(renderer.render(highlight, book)).toMatch(
-        new RegExp('^highlighted text \\^ref-.*\\n\\n110$')
+        new RegExp('^highlighted text \\^ref-.*\\n\\n110$'),
       );
     });
 
@@ -129,7 +129,7 @@ describe('HighlightRenderer', () => {
       const renderer = new HighlightRenderer(template);
 
       expect(renderer.render(highlight, book)).toMatch(
-        new RegExp(/highlighted text \^ref-.*/)
+        new RegExp(/highlighted text \^ref-.*/),
       );
     });
   });

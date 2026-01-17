@@ -3,13 +3,13 @@ import { App, Modal } from 'obsidian';
 import { strings } from '~/i18n';
 import type { SyncMode } from '~/models';
 
-import { store, type SyncModalState } from './store';
+import { type SyncModalState, store } from './store';
 import SyncModalContent from './SyncModalContent.svelte';
 
 const SyncModalTitle: Record<SyncModalState['status'], string> = {
   'upgrade-warning': strings.syncModal.breakingChangeNotice,
   'first-time': strings.syncModal.initialSync,
-  'idle': strings.syncModal.yourHighlights,
+  idle: strings.syncModal.yourHighlights,
   'sync:fetching-books': strings.syncModal.syncingTitle,
   'sync:login': strings.syncModal.syncingTitle,
   'sync:syncing': strings.syncModal.syncingTitle,
@@ -24,7 +24,10 @@ type SyncModalProps = {
 export default class SyncModal extends Modal {
   private modalContent!: SyncModalContent;
 
-  constructor(app: App, private props: SyncModalProps) {
+  constructor(
+    app: App,
+    private props: SyncModalProps,
+  ) {
     super(app);
   }
 

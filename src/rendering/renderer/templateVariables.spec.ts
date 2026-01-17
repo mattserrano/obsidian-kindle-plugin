@@ -1,4 +1,5 @@
-import { AuthorsTemplateVariables, authorsTemplateVariables } from './templateVariables';
+import type { AuthorsTemplateVariables } from './templateVariables';
+import { authorsTemplateVariables } from './templateVariables';
 
 describe('authorsTemplateVariables', () => {
   it('Breaks one author correctly', () => {
@@ -27,7 +28,7 @@ describe('authorsTemplateVariables', () => {
 
   it('Breaks three authors correctly', () => {
     const variables = authorsTemplateVariables(
-      'Vicki Robin, Joe Dominguez, And Mr. Money Mustache'
+      'Vicki Robin, Joe Dominguez, And Mr. Money Mustache',
     );
     expect(variables).toEqual<AuthorsTemplateVariables>({
       author: 'Vicki Robin, Joe Dominguez, And Mr. Money Mustache',

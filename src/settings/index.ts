@@ -20,7 +20,11 @@ type AdapterFile = {
 };
 
 export class SettingsTab extends PluginSettingTab {
-  constructor(app: App, plugin: KindlePlugin, private fileManager: KindleFileManager) {
+  constructor(
+    app: App,
+    plugin: KindlePlugin,
+    private fileManager: KindleFileManager,
+  ) {
     super(app, plugin);
     this.app = app;
   }
@@ -52,7 +56,7 @@ export class SettingsTab extends PluginSettingTab {
     group.setHeading(strings.settings.groups.account);
 
     if (get(settingsStore).isLoggedIn) {
-      group.addSetting(setting => {
+      group.addSetting((setting) => {
         setting.setName(strings.settings.account.title);
         setting.setDesc(descFragment);
         setting.addButton((button) => {
@@ -60,7 +64,10 @@ export class SettingsTab extends PluginSettingTab {
             .setButtonText(strings.settings.account.buttonDefault)
             .setCta()
             .onClick(async () => {
-              button.removeCta().setButtonText(strings.settings.account.buttonPressed).setDisabled(true);
+              button
+                .removeCta()
+                .setButtonText(strings.settings.account.buttonPressed)
+                .setDisabled(true);
 
               ee.emit('startLogout');
 
@@ -81,7 +88,7 @@ export class SettingsTab extends PluginSettingTab {
       });
     }
 
-    group.addSetting(setting => {
+    group.addSetting((setting) => {
       setting.setName(strings.settings.region.title);
       setting.setDesc(strings.settings.region.description);
       setting.addDropdown((dropdown) => {
@@ -90,41 +97,39 @@ export class SettingsTab extends PluginSettingTab {
           dropdown.addOption(region, `${account.name} (${account.hostname})`);
         });
 
-        return dropdown
-          .setValue(get(settingsStore).amazonRegion)
-          .onChange((value: AmazonAccountRegion) => {
-            settingsStore.actions.setAmazonRegion(value);
-          });
+        return dropdown.setValue(get(settingsStore).amazonRegion).onChange((value: string) => {
+          settingsStore.actions.setAmazonRegion(value as AmazonAccountRegion);
+        });
       });
     });
 
-    group.addSetting(setting => {
-      setting.setName(strings.settings.downloadBookMetadata.title)
-      setting.setDesc(strings.settings.downloadBookMetadata.description)
+    group.addSetting((setting) => {
+      setting.setName(strings.settings.downloadBookMetadata.title);
+      setting.setDesc(strings.settings.downloadBookMetadata.description);
       setting.addToggle((toggle) =>
         toggle.setValue(get(settingsStore).downloadBookMetadata).onChange((value) => {
           settingsStore.actions.setDownloadBookMetadata(value);
-        })
+        }),
       );
     });
 
-    group.addSetting(setting => {
-      setting.setName(strings.settings.downloadHighResImages.title)
-      setting.setDesc(strings.settings.downloadHighResImages.description)
+    group.addSetting((setting) => {
+      setting.setName(strings.settings.downloadHighResImages.title);
+      setting.setDesc(strings.settings.downloadHighResImages.description);
       setting.addToggle((toggle) =>
         toggle.setValue(get(settingsStore).downloadHighResImages).onChange((value) => {
           settingsStore.actions.setDownloadHighResImages(value);
-        })
+        }),
       );
     });
 
-    group.addSetting(setting => {
-      setting.setName(strings.settings.syncOnStartup.title)
-      setting.setDesc(strings.settings.syncOnStartup.description)
+    group.addSetting((setting) => {
+      setting.setName(strings.settings.syncOnStartup.title);
+      setting.setDesc(strings.settings.syncOnStartup.description);
       setting.addToggle((toggle) =>
         toggle.setValue(get(settingsStore).syncOnBoot).onChange((value) => {
           settingsStore.actions.setSyncOnBoot(value);
-        })
+        }),
       );
     });
   }
@@ -132,10 +137,10 @@ export class SettingsTab extends PluginSettingTab {
   private highlightSettings(): void {
     const group = new SettingGroup(this.containerEl);
     group.setHeading(strings.settings.groups.highlights);
-    
-    group.addSetting(setting => {
-      setting.setName(strings.settings.highlightsFolder.title)
-      setting.setDesc(strings.settings.highlightsFolder.descriotion)
+
+    group.addSetting((setting) => {
+      setting.setName(strings.settings.highlightsFolder.title);
+      setting.setDesc(strings.settings.highlightsFolder.descriotion);
       setting.addDropdown((dropdown) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
         const files = (this.app.vault.adapter as any).files as AdapterFile[];
@@ -152,25 +157,23 @@ export class SettingsTab extends PluginSettingTab {
       });
     });
 
-    group.addSetting(setting => {
-      setting.setName(strings.settings.templates.title)
-      setting.setDesc(strings.settings.templates.description)
+    group.addSetting((setting) => {
+      setting.setName(strings.settings.templates.title);
+      setting.setDesc(strings.settings.templates.description);
       setting.addButton((button) => {
-        button
-          .setButtonText(strings.settings.templates.button)
-          .onClick(() => {
-            new TemplateEditorModal(this.app).show();
-          });
+        button.setButtonText(strings.settings.templates.button).onClick(() => {
+          new TemplateEditorModal(this.app).show();
+        });
       });
     });
 
-    group.addSetting(setting => {
-      setting.setName(strings.settings.useObsidianFileProperties.title)
-      setting.setDesc(strings.settings.useObsidianFileProperties.description)
+    group.addSetting((setting) => {
+      setting.setName(strings.settings.useObsidianFileProperties.title);
+      setting.setDesc(strings.settings.useObsidianFileProperties.description);
       setting.addToggle((toggle) =>
         toggle.setValue(get(settingsStore).useObsidianFileProperties).onChange((value) => {
           settingsStore.actions.useObsidianFileProperties(value);
-        })
+        }),
       );
     });
   }
@@ -178,20 +181,24 @@ export class SettingsTab extends PluginSettingTab {
   private hightlightBaseSettings(): void {
     const group = new SettingGroup(this.containerEl);
     group.setHeading(strings.settings.groups.bases);
-    group.addSetting(setting => {
-      setting.setName(strings.settings.highlightsBaseFolder.title)
-      setting.setDesc(strings.settings.highlightsBaseFolder.description)
-      setting.addButton((button => {
-        button.setButtonText(strings.settings.highlightsBaseFile.button).onClick(async () => {
-          const baseFolder = get(settingsStore).baseFolder;
-          try {
-            await this.fileManager.createBaseFile(baseFolder);
-            ee.emit('createHighlightBaseSuccess');
-          } catch (error) {
-            ee.emit('createHighlightBaseFailure', String(error));
-          }
-        });
-      })).addDropdown((dropdown) => {
+    group.addSetting((setting) => {
+      setting.setName(strings.settings.highlightsBaseFolder.title);
+      setting.setDesc(strings.settings.highlightsBaseFolder.description);
+      setting
+        .addButton((button) => {
+          button
+            .setButtonText(strings.settings.highlightsBaseFile.button)
+            .onClick(async () => {
+              const baseFolder = get(settingsStore).baseFolder;
+              try {
+                await this.fileManager.createBaseFile(baseFolder);
+                ee.emit('createHighlightBaseSuccess');
+              } catch (error) {
+                ee.emit('createHighlightBaseFailure', String(error));
+              }
+            });
+        })
+        .addDropdown((dropdown) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
           const files = (this.app.vault.adapter as any).files as AdapterFile[];
           const folders = _.pickBy(files, (val) => {
@@ -212,18 +219,18 @@ export class SettingsTab extends PluginSettingTab {
     const group = new SettingGroup(this.containerEl);
     group.setHeading(strings.settings.groups.advanced);
 
-    group.addSetting(setting => {
+    group.addSetting((setting) => {
       setting.setName(strings.settings.showHighlightsToolbar.title);
       setting.setDesc(strings.settings.showHighlightsToolbar.description);
       setting.addToggle((toggle) =>
         toggle.setValue(get(settingsStore).showHighlightsToolbar).onChange((value) => {
           settingsStore.actions.setShowHighlightsToolbar(value);
           ee.emit('toggleHighlightsToolbar', value);
-        })
+        }),
       );
     });
 
-    group.addSetting(setting => {
+    group.addSetting((setting) => {
       setting.setName(strings.settings.sponsor.title);
       setting.setDesc(strings.settings.sponsor.description);
       setting.addButton((bt) => {

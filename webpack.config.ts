@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 import sveltePreprocess from 'svelte-preprocess';
 import TerserPlugin from 'terser-webpack-plugin';
-import { Configuration, DefinePlugin } from 'webpack';
+import type { Configuration } from 'webpack';
+import { DefinePlugin } from 'webpack';
 
 import pack from './package.json';
 
