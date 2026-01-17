@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This project was originally forked from [hadynz
 obsidian-kindle-plugin](https://github.com/hadynz/obsidian-kindle-plugin), and contains numerous bug fixes, security updates, and a few additional features made possible with more recent versions of Obsidian.
 
-The following is a list of changes based on Kindle Highlights v1.9.2, which was last released on Apr 2, 2023.
+The following is a list of changes based on [Kindle Highlights](https://github.com/hadynz/obsidian-kindle-plugin) v1.9.2, which was last released on Apr 2, 2023.
 
 ### Added
 
