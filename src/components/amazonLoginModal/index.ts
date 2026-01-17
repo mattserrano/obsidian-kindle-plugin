@@ -16,7 +16,7 @@ export default class AmazonLoginModal {
     this.region = currentAmazonRegion();
 
     this.waitForSignIn = new Promise(
-      (resolve: (success: boolean) => void) => (this.resolvePromise = resolve)
+      (resolve: (success: boolean) => void) => (this.resolvePromise = resolve),
     );
 
     this.modal = new RemoteBrowserWindow({

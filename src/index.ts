@@ -12,8 +12,8 @@ import { SettingsTab } from '~/settings';
 import { initializeStores, settingsStore } from '~/store';
 import { SyncAmazon, SyncClippings, SyncManager } from '~/sync';
 
-addIcon('kindle', kindleIcon);
-addIcon('kindle-toolbar', toolbarIcon);
+addIcon('kindle', kindleIcon as string);
+addIcon('kindle-toolbar', toolbarIcon as string);
 
 export default class KindlePlugin extends Plugin {
   private fileManager!: KindleFileManager;
@@ -24,7 +24,11 @@ export default class KindlePlugin extends Plugin {
   public async onload(): Promise<void> {
     console.log('Kindle Highlights plugin: loading plugin', new Date().toLocaleString());
 
-    this.fileManager = new KindleFileManager(this.app.fileManager, this.app.vault, this.app.metadataCache);
+    this.fileManager = new KindleFileManager(
+      this.app.fileManager,
+      this.app.vault,
+      this.app.metadataCache,
+    );
     const syncManager = new SyncManager(this.fileManager);
 
     await initializeStores(this, this.fileManager);
@@ -85,7 +89,7 @@ export default class KindlePlugin extends Plugin {
     ee.on('resyncBook', () => {
       this.updateStatusBar('green');
     });
-    
+
     ee.on('resyncComplete', () => {
       this.updateStatusBar('currentColor');
     });
@@ -127,30 +131,35 @@ export default class KindlePlugin extends Plugin {
         if (kindleFile == null) {
           return;
         }
-        
+
         menu.addItem((item) => {
-          item.setTitle(strings.fileMenu.resyncTitle)
+          item
+            .setTitle(strings.fileMenu.resyncTitle)
             .setIcon('kindle')
             .setDisabled(kindleFile.book?.asin == null)
             .onClick(async () => {
               await this.syncAmazon.resync(kindleFile);
             });
         });
-      })
+      }),
     );
 
     this.app.workspace.onLayoutReady(async () => {
-    if (get(settingsStore).syncOnBoot) {
-      await this.startAmazonSync();
-    }
+      if (get(settingsStore).syncOnBoot) {
+        await this.startAmazonSync();
+      }
       ee.emit('obsidianReady');
     });
   }
 
   private async showSyncModal(): Promise<void> {
     await new SyncModal(this.app, {
-      onOnlineSync: () => this.startAmazonSync(),
-      onMyClippingsSync: () => this.syncClippings.startSync(),
+      onOnlineSync: () => {
+        void this.startAmazonSync();
+      },
+      onMyClippingsSync: () => {
+        void this.syncClippings.startSync();
+      },
     }).show();
   }
 
@@ -159,11 +168,12 @@ export default class KindlePlugin extends Plugin {
     setTooltip(
       this.statusBar,
       get(settingsStore).lastSyncDate
-        ? strings.settings.account.lastSync + new Date(get(settingsStore).lastSyncDate).toLocaleString()
+        ? strings.settings.account.lastSync +
+            new Date(get(settingsStore).lastSyncDate!).toLocaleString()
         : strings.settings.account.neverSynced,
-        {
-          placement: 'top',
-        }
+      {
+        placement: 'top',
+      },
     );
   }
 

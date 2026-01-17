@@ -97,7 +97,7 @@ const createSyncModalStore = () => {
     store.update((state) => ({
       ...state,
       status: 'idle',
-      erroredJobs: [{ book: file.book, reason: message }],
+      erroredJobs: [{ book: file.book!, reason: message }],
     }));
   });
 

@@ -12,9 +12,9 @@ describe('mapTextToColor', () => {
     }).not.toThrow();
   });
 
-  it('returns null when no color found', () => {
+  it('returns undefined when no color found', () => {
     const actualColor = mapTextToColor('no-supported-color');
-    expect(actualColor).toEqual(null);
+    expect(actualColor).toEqual(undefined);
   });
 
   describe('parses highlight colors correctly', () => {

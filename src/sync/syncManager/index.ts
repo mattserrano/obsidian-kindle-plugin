@@ -22,8 +22,8 @@ export default class SyncManager {
 
     return diffBooks(
       remoteBooks,
-      vaultBooks.map((v) => v.book),
-      lastSyncDate
+      vaultBooks.map((v) => v.book).filter((book): book is Book => book !== undefined),
+      lastSyncDate,
     );
   }
 
@@ -43,9 +43,13 @@ export default class SyncManager {
 
   public async resyncBook(
     file: KindleFile,
-    remoteBook: Book,
-    remoteHighlights: Highlight[]
+    remoteBook: Book | undefined,
+    remoteHighlights: Highlight[],
   ): Promise<DiffResult[]> {
+    if (!remoteBook) {
+      throw new Error('Remote book not found');
+    }
+
     const diffManager = await DiffManager.create(this.fileManager, file);
 
     const diffs = diffManager.diff(remoteHighlights);
@@ -65,8 +69,8 @@ export default class SyncManager {
     await this.fileManager.createFile(book, content, metadata, highlights.length);
   }
 
-  private async syncMetadata(book: Book): Promise<BookMetadata> {
-    let metadata: BookMetadata;
+  private async syncMetadata(book: Book): Promise<BookMetadata | undefined> {
+    let metadata: BookMetadata | undefined;
 
     try {
       if (get(settingsStore).downloadBookMetadata && book.asin) {

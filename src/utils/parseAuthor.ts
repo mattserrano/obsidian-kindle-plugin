@@ -1,9 +1,9 @@
 type Author = {
-  firstName: string;
-  lastName: string;
+  firstName: string | undefined;
+  lastName: string | undefined;
 };
 
-export const parseAuthors = (author: string | undefined): Author[] => {
+export const parseAuthors = (author: string | null | undefined): Author[] => {
   if (author == null) {
     return [{ firstName: undefined, lastName: undefined }];
   }

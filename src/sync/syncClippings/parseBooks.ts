@@ -1,4 +1,5 @@
-import { Book, groupToBooks, readMyClippingsFile } from '@hadynz/kindle-clippings';
+import type { Book } from '@hadynz/kindle-clippings';
+import { groupToBooks, readMyClippingsFile } from '@hadynz/kindle-clippings';
 import fs from 'fs';
 
 import type { BookHighlight, Highlight } from '~/models';
@@ -9,7 +10,7 @@ const toBookHighlight = (book: Book): BookHighlight => {
     book: {
       id: hash(book.title),
       title: book.title,
-      author: book.author,
+      author: book.author ?? '',
     },
     highlights: book.annotations
       .filter((entry) => entry.type === 'HIGHLIGHT' || entry.type === 'UNKNOWN')
@@ -21,7 +22,7 @@ const toBookHighlight = (book: Book): BookHighlight => {
           location: entry.location?.display,
           page: entry.page?.display,
           createdDate: entry.createdDate,
-        })
+        }),
       ),
   };
 };

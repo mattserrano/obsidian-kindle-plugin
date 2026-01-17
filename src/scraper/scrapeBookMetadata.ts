@@ -15,7 +15,7 @@ type PopoverData = {
 
 const parseDetailsList = ($: Root): Omit<BookMetadata, 'authorUrl'> => {
   const detailsListEl = $(
-    '#detailBullets_feature_div .detail-bullet-list:first-child li span.a-list-item'
+    '#detailBullets_feature_div .detail-bullet-list:first-child li span.a-list-item',
   ).toArray();
 
   const result: AmazonDetailsList = detailsListEl.reduce((accumulator, currentEl) => {
@@ -38,10 +38,10 @@ const parseDetailsList = ($: Root): Omit<BookMetadata, 'authorUrl'> => {
   };
 };
 
-const parseIsbn = ($: Root): string | null => {
+const parseIsbn = ($: Root): string | undefined => {
   // Attempt 1 - Try and fetch isbn from product information popover
   const popoverData = $(
-    '#rich_product_information ol.a-carousel span[data-action=a-popover]'
+    '#rich_product_information ol.a-carousel span[data-action=a-popover]',
   ).data('a-popover') as PopoverData;
 
   const isbnMatches = popoverData?.inlineContent.match(/(?<=\bISBN\s)(\w+)/g);
@@ -58,10 +58,10 @@ const parseIsbn = ($: Root): string | null => {
   return isbnFeature;
 };
 
-const parseAuthorUrl = ($: Root): string | null => {
+const parseAuthorUrl = ($: Root): string | undefined => {
   const region = currentAmazonRegion();
   const href = $('a.a-size-base.a-link-normal.a-text-normal').attr('href');
-  return href ? `https://${region.hostname}/${href}` : null;
+  return href ? `https://${region.hostname}/${href}` : undefined;
 };
 
 export const parseBookMetadata = ($: Root): BookMetadata => {

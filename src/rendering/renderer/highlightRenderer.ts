@@ -18,11 +18,12 @@ export default class HighlightRenderer {
 
   constructor(private template: string) {
     this.nunjucks = new Environment(null, { autoescape: false });
-    this.nunjucks.addExtension('BlockRef', new BlockReferenceExtension());
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
+    this.nunjucks.addExtension('BlockRef', new (BlockReferenceExtension as any)());
     this.nunjucks.addFilter('date', dateFilter);
   }
 
-  public validate(template: string): boolean {
+  public validate(template: string | null | undefined): boolean {
     try {
       this.nunjucks.renderString(template ?? '', { text: '' });
       return true;

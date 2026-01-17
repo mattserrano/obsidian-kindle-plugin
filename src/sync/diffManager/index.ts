@@ -1,8 +1,7 @@
 import _ from 'lodash';
 
 import type KindleFileManager from '~/fileManager';
-import type { Highlight } from '~/models';
-import type { Book, KindleFile } from '~/models';
+import type { Book, Highlight, KindleFile } from '~/models';
 import { getRenderers } from '~/rendering';
 import { HighlightIdBlockRefPrefix } from '~/rendering/renderer';
 import { sb, StringBuffer } from '~/utils';
@@ -20,18 +19,21 @@ export type DiffResult = {
 };
 
 export class DiffManager {
-  private fileBuffer: StringBuffer;
+  private fileBuffer!: StringBuffer;
 
   public static async create(
     fileManager: KindleFileManager,
-    kindleFile: KindleFile
+    kindleFile: KindleFile,
   ): Promise<DiffManager> {
     const manager = new DiffManager(fileManager, kindleFile);
     await manager.load();
     return manager;
   }
 
-  private constructor(private fileManager: KindleFileManager, private kindleFile: KindleFile) {}
+  private constructor(
+    private fileManager: KindleFileManager,
+    private kindleFile: KindleFile,
+  ) {}
 
   private async load(): Promise<void> {
     const fileContents = await this.fileManager.readFile(this.kindleFile);
@@ -61,20 +63,24 @@ export class DiffManager {
   public async applyDiffs(
     remoteBook: Book,
     remoteHighlights: Highlight[],
-    diffs: DiffResult[]
+    diffs: DiffResult[],
   ): Promise<void> {
     const highlightRenderer = getRenderers().highlightRenderer;
+
+    if (!this.kindleFile.book) {
+      throw new Error('Book is not defined in KindleFile');
+    }
 
     const insertList = diffs
       .filter((d) => d.nextRenderedHighlight)
       .map((d) => ({
-        line: d.nextRenderedHighlight?.line,
-        content: highlightRenderer.render(d.remoteHighlight, this.kindleFile.book),
+        line: d.nextRenderedHighlight!.line,
+        content: highlightRenderer.render(d.remoteHighlight, this.kindleFile.book!),
       }));
 
     const appendList = diffs
       .filter((d) => d.nextRenderedHighlight == null)
-      .map((d) => highlightRenderer.render(d.remoteHighlight, this.kindleFile.book));
+      .map((d) => highlightRenderer.render(d.remoteHighlight, this.kindleFile.book!));
 
     const modifiedFileContents = this.fileBuffer
       .insertLinesAt(insertList)
@@ -85,7 +91,7 @@ export class DiffManager {
       this.kindleFile,
       remoteBook,
       modifiedFileContents,
-      remoteHighlights.length
+      remoteHighlights.length,
     );
   }
 }

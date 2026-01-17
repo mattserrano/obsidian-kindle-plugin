@@ -4,4 +4,10 @@ import scrapeBooks from './scrapeBooks';
 import scrapeLogoutUrl from './scrapeLogoutUrl';
 import clearSessionData from './session';
 
-export { scrapeHighlightsForBook, scrapeBookMetadata, scrapeBooks, scrapeLogoutUrl, clearSessionData };
+export {
+  clearSessionData,
+  scrapeBookMetadata,
+  scrapeBooks,
+  scrapeHighlightsForBook,
+  scrapeLogoutUrl,
+};

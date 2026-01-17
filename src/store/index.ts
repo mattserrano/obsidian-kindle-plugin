@@ -6,10 +6,10 @@ import { settingsStore } from './settingsStore';
 
 const initializeStores = async (
   plugin: KindlePlugin,
-  fileManager: KindleFileManager
+  fileManager: KindleFileManager,
 ): Promise<void> => {
   await settingsStore.initialize(plugin);
   fileStore.initialize(fileManager);
 };
 
-export { initializeStores, fileStore, settingsStore };
+export { fileStore, initializeStores, settingsStore };

@@ -5,7 +5,7 @@
 
   import hashIcon from '~/assets/hashIcon.svg';
 
-  export let writableStore: Writable<string>;
+  export let writableStore: Writable<string | undefined>;
   export let defaultValue: string;
   export let showTipsModal: () => void;
 </script>

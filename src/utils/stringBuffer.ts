@@ -29,10 +29,12 @@ export class StringBuffer {
   }
 
   public match(regex: RegExp): LineEntryMatch[] {
-    return this.lines.map((content, index) => {
-      const match = content.match(regex);
-      return { line: index + 1, content, match };
-    });
+    return this.lines
+      .map((content, index) => {
+        const match = content.match(regex);
+        return match ? { line: index + 1, content, match } : null;
+      })
+      .filter((entry): entry is LineEntryMatch => entry !== null);
   }
 
   public insertLinesAt(newLines: LineEntry[]): StringBuffer {

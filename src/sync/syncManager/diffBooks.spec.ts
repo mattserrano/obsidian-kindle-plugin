@@ -39,13 +39,13 @@ describe('diffBooks', () => {
     expect(actualBooks.map((a) => a.id)).toEqual(['1']);
   });
 
-  it('Books with same last annotated date a day before last sync will always be filtered for sync', () => {
+  it('Books with same last annotated date a day before last sync will not be filtered for sync', () => {
     const remoteBooks = [book('1', new Date('October 25, 2021'))];
     const vaultBooks = [book('1', new Date('October 25, 2021'))];
     const lastSyncDate = new Date('Tue Oct 26 2021 18:58:18 GMT+1300');
 
     const actualBooks = diffBooks(remoteBooks, vaultBooks, lastSyncDate);
-    expect(actualBooks.map((a) => a.id)).toEqual(['1']);
+    expect(actualBooks.map((a) => a.id)).toEqual([]);
   });
 
   it('Books with same last annotated date two days before last sync will not be filtered for sync', () => {

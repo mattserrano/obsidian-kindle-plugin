@@ -4,8 +4,8 @@ export const trimMultipleLines = (content: string): string => {
   return content.trim().replace(/(\n){3,}/, '\n\n');
 };
 
-export const generateAppLink = (bookAsin: string, highlight?: Highlight): string => {
-  if (bookAsin == null) {
+export const generateAppLink = (bookAsin: string, highlight?: Highlight): string | null => {
+  if (!bookAsin) {
     return null;
   }
   if (highlight?.location != null) {

@@ -33,13 +33,16 @@ export const parseAuthor = (scrapedAuthor: string): string => {
   return scrapedAuthor.replace(/.*: /, '')?.trim();
 };
 
-export const parseImageUrl = (scrapedImageUrl: string): string => {
+export const parseImageUrl = (scrapedImageUrl: string | undefined): string | undefined => {
+  if (!scrapedImageUrl) {
+    return undefined;
+  }
   if (get(settingsStore).downloadHighResImages) {
-    return scrapedImageUrl?.replace('._SY160', '');
+    return scrapedImageUrl.replace('._SY160', '');
   } else {
     return scrapedImageUrl;
   }
-}
+};
 
 export const parseBooks = ($: Root): Book[] => {
   const region = currentAmazonRegion();
@@ -61,7 +64,7 @@ export const parseBooks = ($: Root): Book[] => {
       imageUrl: parseImageUrl(scrapedImageUrl),
       lastAnnotatedDate: parseToDateString(
         scrapedLastAnnotatedDate,
-        get(settingsStore).amazonRegion
+        get(settingsStore).amazonRegion,
       ),
     };
   });

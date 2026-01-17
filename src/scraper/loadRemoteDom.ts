@@ -1,11 +1,12 @@
-import cheerio, { Root } from 'cheerio';
+import type { Root } from 'cheerio';
+import cheerio from 'cheerio';
 import { BrowserWindow, remote } from 'electron';
 
 const { BrowserWindow: RemoteBrowserWindow } = remote;
 
 type DomResult = {
   dom: Root;
-  didNavigateUrl: string;
+  didNavigateUrl: string | null;
 };
 
 export const loadRemoteDom = async (targetUrl: string, timeout = 0): Promise<DomResult> => {
@@ -24,7 +25,7 @@ export const loadRemoteDom = async (targetUrl: string, timeout = 0): Promise<Dom
   window.loadURL(targetUrl);
 
   return new Promise<DomResult>((resolveWrapper) => {
-    let didNavigateUrl: string = null;
+    let didNavigateUrl: string | null = null;
 
     window.webContents.on('did-navigate', (_event, url) => {
       didNavigateUrl = url;
@@ -42,10 +43,10 @@ export const loadRemoteDom = async (targetUrl: string, timeout = 0): Promise<Dom
         })
         .then(() => {
           return window.webContents.executeJavaScript(
-            `document.querySelector('body').innerHTML`
+            `document.querySelector('body').innerHTML`,
           );
         })
-        .then((html) => {
+        .then((html: string) => {
           const $ = cheerio.load(html);
 
           window.destroy();

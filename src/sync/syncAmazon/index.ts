@@ -45,8 +45,12 @@ export default class SyncAmazon {
     }
 
     try {
+      if (!file.book) {
+        throw new Error('Book is not defined in KindleFile');
+      }
+
       const remoteBooks = await scrapeBooks();
-      const remoteBook = remoteBooks.find((r) => r.id === file.book.id);
+      const remoteBook = remoteBooks.find((r) => r.id === file.book!.id);
 
       const highlights = await scrapeHighlightsForBook(file.book);
 

@@ -9,15 +9,15 @@ type DiffIndex = {
   exists: boolean;
 };
 
-const getNextNeighbour = (state: Map<string, DiffIndex>, needle: string): Highlight => {
+const getNextNeighbour = (state: Map<string, DiffIndex>, needle: string): Highlight | null => {
   const keys = Array.from(state.keys());
   const needleIndex = keys.indexOf(needle);
 
-  let next: Highlight = null;
+  let next: Highlight | null = null;
 
   for (let i = needleIndex + 1; i < keys.length; i++) {
     const diffIndex = state.get(keys[i]);
-    if (diffIndex.exists) {
+    if (diffIndex?.exists) {
       next = diffIndex.highlight;
       break;
     }
@@ -28,7 +28,7 @@ const getNextNeighbour = (state: Map<string, DiffIndex>, needle: string): Highli
 
 export const diffLists = (
   remotes: Highlight[],
-  renders: RenderedHighlight[]
+  renders: RenderedHighlight[],
 ): DiffResult[] => {
   /**
    * Array of remote highlights that have not been rendered
@@ -40,7 +40,7 @@ export const diffLists = (
    * Use an ES6 Map to ensure key orders are preserved
    */
   const syncState = new Map<string, DiffIndex>();
-  remotes.forEach((r) => syncState.set(r.id, { highlight: r, exists: !diff.contains(r) }));
+  remotes.forEach((r) => syncState.set(r.id, { highlight: r, exists: !diff.includes(r) }));
 
   return diff.map((remote): DiffResult => {
     const next = getNextNeighbour(syncState, remote.id);

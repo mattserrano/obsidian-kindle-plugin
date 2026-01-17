@@ -47,11 +47,11 @@ describe('FileRenderer', () => {
         ['{{url}}', bookHighlight.book.url],
         ['{{imageUrl}}', bookHighlight.book.imageUrl],
         ['{{lastAnnotatedDate}}', '2022-04-04'],
-        ['{{isbn}}', bookHighlight.metadata.isbn],
-        ['{{pages}}', bookHighlight.metadata.pages],
-        ['{{publicationDate}}', bookHighlight.metadata.publicationDate],
-        ['{{publisher}}', bookHighlight.metadata.publisher],
-        ['{{authorUrl}}', bookHighlight.metadata.authorUrl],
+        ['{{isbn}}', bookHighlight.metadata!.isbn],
+        ['{{pages}}', bookHighlight.metadata!.pages],
+        ['{{publicationDate}}', bookHighlight.metadata!.publicationDate],
+        ['{{publisher}}', bookHighlight.metadata!.publisher],
+        ['{{authorUrl}}', bookHighlight.metadata!.authorUrl],
         ['{{highlightsCount}}', '1'],
       ])('template variable "%s" evaluated as "%s"', (template, expected) => {
         const renderer = new FileRenderer(template, '');
@@ -131,7 +131,7 @@ describe('FileRenderer', () => {
 
 ## Metadata
 - Author:: ${bookHighlight.book.author}
-- Publisher:: ${bookHighlight.metadata.publisher}
+- Publisher:: ${bookHighlight.metadata!.publisher}
 - Highlights count:: 2
 
 ## Highlights

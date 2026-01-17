@@ -11,9 +11,12 @@ type NextPageState = {
   contentLimitState: string;
 };
 
-export const mapTextToColor = (highlightClasses: string): Highlight['color'] => {
+export const mapTextToColor = (highlightClasses: string | undefined): Highlight['color'] => {
+  if (!highlightClasses) {
+    return undefined;
+  }
   const matches = /kp-notebook-highlight-(.*)/.exec(highlightClasses);
-  return matches ? (matches[1] as Highlight['color']) : null;
+  return matches ? (matches[1] as Highlight['color']) : undefined;
 };
 
 const highlightsUrl = (book: Book, state?: NextPageState): string => {
@@ -38,9 +41,10 @@ const parseHighlights = ($: Root): Highlight[] => {
     const highlightClasses = $('.kp-notebook-highlight', highlightEl).attr('class');
     const color = mapTextToColor(highlightClasses);
     const text = $('#highlight', highlightEl).text()?.trim();
-    const note = br2ln($('#note', highlightEl).html());
+    const noteHtml = $('#note', highlightEl).html();
+    const note = noteHtml ? (br2ln(noteHtml) ?? undefined) : undefined;
     const location = $('#kp-annotation-location', highlightEl).val();
-    const page = pageMatch ? pageMatch[0] : null;
+    const page = pageMatch ? pageMatch[0] : undefined;
     return {
       id: hash(text),
       text,
@@ -58,7 +62,7 @@ const loadAndScrapeHighlights = async (book: Book, url: string) => {
 
   return {
     highlights: parseHighlights(dom),
-    nextPageUrl: highlightsUrl(book, nextPageState),
+    nextPageUrl: highlightsUrl(book, nextPageState ?? undefined),
     hasNextPage: nextPageState !== null,
   };
 };

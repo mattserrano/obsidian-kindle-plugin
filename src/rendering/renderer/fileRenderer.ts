@@ -11,9 +11,13 @@ export default class FileRenderer {
   private nunjucks: Environment;
   private highlightRenderer: HighlightRenderer;
 
-  constructor(private fileTemplate: string, highlightTemplate: string) {
+  constructor(
+    private fileTemplate: string,
+    highlightTemplate: string,
+  ) {
     this.nunjucks = new Environment(null, { autoescape: false });
-    this.nunjucks.addExtension('Trim', new TrimAllEmptyLinesExtension());
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
+    this.nunjucks.addExtension('Trim', new (TrimAllEmptyLinesExtension as any)());
 
     this.highlightRenderer = new HighlightRenderer(highlightTemplate);
   }

@@ -17,7 +17,7 @@ describe('parseAuthor', () => {
       const authors = parseAuthors(author);
       expect(authors).toHaveLength(1);
       expect(authors[0]).toEqual({ firstName, lastName });
-    }
+    },
   );
 
   it.each([
