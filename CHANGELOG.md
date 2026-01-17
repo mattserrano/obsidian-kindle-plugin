@@ -9,7 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- README CI/CD badges to point to this fork
+- Changed toolbar icons to reflect active and terminal sync states
+- Update README CI/CD badges to point to this fork
+
+### Fixed
+
+- Use proper sentence case in UI
 
 ## [Unreleased]
 
