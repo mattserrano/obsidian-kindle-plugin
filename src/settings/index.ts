@@ -225,7 +225,7 @@ export class SettingsTab extends PluginSettingTab {
 
     group.addSetting(setting => {
       setting.setName(strings.settings.sponsor.title);
-      setting.setDesc(strings.settings.sponsor.description);
+      setting.setDesc('☕️ ' + strings.settings.sponsor.description);
       setting.addButton((bt) => {
         bt.buttonEl.outerHTML = `<a href="https://www.buymeacoffee.com/hadynz"><img style="height: 35px;" src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hadynz&button_colour=BD5FFF&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00"></a>`;
       });
