@@ -18,7 +18,7 @@ describe('HighlightRenderer', () => {
 
     it.each([null, undefined])('should return true for %s template', (template) => {
       const renderer = new HighlightRenderer('');
-      expect(renderer.validate(template)).toBe(true);
+      expect(renderer.validate(template ?? undefined)).toBe(true);
     });
   });
 

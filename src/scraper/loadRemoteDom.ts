@@ -6,7 +6,7 @@ const { BrowserWindow: RemoteBrowserWindow } = remote;
 
 type DomResult = {
   dom: Root;
-  didNavigateUrl: string | null;
+  didNavigateUrl?: string;
 };
 
 export const loadRemoteDom = async (targetUrl: string, timeout = 0): Promise<DomResult> => {
@@ -25,7 +25,7 @@ export const loadRemoteDom = async (targetUrl: string, timeout = 0): Promise<Dom
   window.loadURL(targetUrl);
 
   return new Promise<DomResult>((resolveWrapper) => {
-    let didNavigateUrl: string | null = null;
+    let didNavigateUrl: string | undefined;
 
     window.webContents.on('did-navigate', (_event, url) => {
       didNavigateUrl = url;

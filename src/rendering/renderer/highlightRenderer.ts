@@ -23,7 +23,7 @@ export default class HighlightRenderer {
     this.nunjucks.addFilter('date', dateFilter);
   }
 
-  public validate(template: string | null | undefined): boolean {
+  public validate(template?: string): boolean {
     try {
       this.nunjucks.renderString(template ?? '', { text: '' });
       return true;

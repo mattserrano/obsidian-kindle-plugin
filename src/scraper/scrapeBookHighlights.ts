@@ -41,8 +41,7 @@ const parseHighlights = ($: Root): Highlight[] => {
     const highlightClasses = $('.kp-notebook-highlight', highlightEl).attr('class');
     const color = mapTextToColor(highlightClasses);
     const text = $('#highlight', highlightEl).text()?.trim();
-    const noteHtml = $('#note', highlightEl).html();
-    const note = noteHtml ? (br2ln(noteHtml) ?? undefined) : undefined;
+    const note = br2ln($('#note', highlightEl).html()) ?? undefined;
     const location = $('#kp-annotation-location', highlightEl).val();
     const page = pageMatch ? pageMatch[0] : undefined;
     return {

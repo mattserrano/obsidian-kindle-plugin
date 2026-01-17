@@ -33,7 +33,7 @@ export const parseAuthor = (scrapedAuthor: string): string => {
   return scrapedAuthor.replace(/.*: /, '')?.trim();
 };
 
-export const parseImageUrl = (scrapedImageUrl: string | undefined): string | undefined => {
+export const parseImageUrl = (scrapedImageUrl?: string): string | undefined => {
   if (!scrapedImageUrl) {
     return undefined;
   }

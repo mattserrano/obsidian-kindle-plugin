@@ -15,7 +15,7 @@ export const parseSignoutLink = ($: Root): string => {
 };
 
 type LogoutUrl = {
-  url: string | null;
+  url?: string;
   isStillLoggedIn: boolean;
 };
 
@@ -25,7 +25,7 @@ const scrapeLogoutUrl = async (): Promise<LogoutUrl> => {
 
   const { dom, didNavigateUrl } = await loadRemoteDom(kindleReaderUrl);
 
-  let logoutUrl: string | null = null;
+  let logoutUrl: string | undefined;
   const isStillLoggedIn = !!didNavigateUrl && !didNavigateUrl.includes('signin');
 
   if (isStillLoggedIn) {
