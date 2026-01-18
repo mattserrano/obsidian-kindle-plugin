@@ -19,3 +19,5 @@ In a terminal window:
 6. Run `npm run dev` to start compilation in watch mode
 
 After following these steps, the plugin should be visible under Community plugins in your Obsidian vault's settings.
+
+See Obsidian's [Getting started](0https://docs.obsidian.md/Plugins/Getting+started/Build+a+plugin#Step%202%20Build%20the%20plugin) guide to plugin development for best practices and further reference.
