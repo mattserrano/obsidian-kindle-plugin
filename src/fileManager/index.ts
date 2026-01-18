@@ -15,8 +15,6 @@ const BaseContent =
 properties:
   title:
     displayName: title
-  formula.highlightsCount:
-    displayName: highlights
   note.highlightsCount:
     displayName: highlights
   note.lastAnnotatedDate:
@@ -24,9 +22,9 @@ properties:
   note.authorUrl:
     displayName: author url
   note.asin:
-    displayName: ASIN
+    displayName: asin
   note.isbn:
-    displayName: ISBN
+    displayName: isbn
   note.bookImageUrl:
     displayName: book image url
 views:
