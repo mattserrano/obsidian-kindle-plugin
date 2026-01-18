@@ -5,36 +5,33 @@ import type { Book, BookMetadata } from '~/models';
 
 import { loadRemoteDom } from './loadRemoteDom';
 
-type AmazonDetailsList = {
-  [key: string]: string;
-};
-
 type PopoverData = {
   inlineContent: string;
 };
 
 const parseDetailsList = ($: Root): Omit<BookMetadata, 'authorUrl'> => {
-  const detailsListEl = $(
-    '#detailBullets_feature_div .detail-bullet-list:first-child li span.a-list-item'
-  ).toArray();
+  const detailsList = $('#detailBullets_feature_div .detail-bullet-list:first-child li span.a-list-item span.a-text-bold')
+    .toArray()
+    .reduce((accumulator, el) => {
+      const key = $(el).text()
+        .replace(/[\n\r]+/g, '')
+        .replace(':', '')
+        .replace(/[^\w\s-]/gi, '') // Strip all chars except alpha numeric, spaces, and hyphens
+        .trim();
+      const val = $(el).next()
+        .text()
+        .trim();
+      accumulator.set(key, val);
+      return accumulator;
+    }, new Map<string, string>());
 
-  const result: AmazonDetailsList = detailsListEl.reduce((accumulator, currentEl) => {
-    const key = $('span:first-child', currentEl)
-      .text()
-      .replace(/[\n\r]+/g, '')
-      .replace(':', '')
-      .replace(/[^\w\s]/gi, ''); // Strip all chars except alpha numeric and spaces
-
-    const value = $('span:nth-child(2)', currentEl).text();
-
-    return { ...accumulator, [key]: value };
-  }, {});
-
+  const publicationDateStr = detailsList.get('Publication date');
+  const publicationDate = publicationDateStr ? new Date(publicationDateStr).toLocaleDateString() : undefined;
   return {
-    isbn: result['Page numbers source ISBN'],
-    pages: result['Print length'],
-    publicationDate: result['Publication date'],
-    publisher: result['Publisher'],
+    isbn: detailsList.get('ISBN-13'),
+    pages: (/\d+/.exec(detailsList.get('Print length')))?.[0],
+    publicationDate,
+    publisher: detailsList.get('Publisher'),
   };
 };
 

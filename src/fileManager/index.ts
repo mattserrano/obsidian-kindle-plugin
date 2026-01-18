@@ -17,6 +17,8 @@ properties:
     displayName: title
   note.highlightsCount:
     displayName: highlights
+  note.publicationDate:
+    displayName: publication date
   note.lastAnnotatedDate:
     displayName: last annotated
   note.authorUrl:
@@ -36,7 +38,9 @@ views:
     order:
       - title
       - author
+      - publicationDate
       - asin
+      - isbn
       - lastAnnotatedDate
       - highlightsCount
     image: bookImageUrl
