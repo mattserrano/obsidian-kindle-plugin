@@ -1,4 +1,4 @@
-## How to use
+## How to build
 
 To build this plugin on your machine, create a new Obsidian vault and enable community plugins in Obsidian settings.
 
@@ -21,3 +21,7 @@ In a terminal window:
 After following these steps, the plugin should be visible under Community plugins in your Obsidian vault's settings.
 
 See Obsidian's [Getting started](0https://docs.obsidian.md/Plugins/Getting+started/Build+a+plugin#Step%202%20Build%20the%20plugin) guide to plugin development for best practices and further reference.
+
+## How to debug
+
+The desktop Obsidian app is a native electron app that exposes the DOM. To set breakpoints, view logs, or interact with the javascript console, click on the View > Toggle Developer Tools system menu item. You can set breakpoints by navigating to the plugin .js file in the Sources tab.
