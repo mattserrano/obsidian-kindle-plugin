@@ -1,7 +1,7 @@
 {
   "id": "obsidian-kindle-notebook-plugin",
   "name": "Kindle Notes and Highlights",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "Sync your Kindle notes and book highlights using your Amazon login or uploading your My Clippings file (a fork of Hady Osman's Kindle Highlights plugin, with additional features and bug fixes).",
   "minAppVersion": "0.15.0",
   "author": "Matthew Serrano",

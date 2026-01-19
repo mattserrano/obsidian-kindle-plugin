@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1]
+
+### Changed
+
+- Stop writing `kindle-sync` attributes when Obsidian note properties are enabled; highlight deletions or changes to the `highlightCount` will be detected when highlights are re-synced (this detection does not apply when changes are made to book metadata, which is expected to be static, for performance reasons)
+
 ## [1.0.1]
 
 ### Changed
@@ -44,7 +50,7 @@ The following is a list of changes based on [Kindle Highlights](https://github.c
 
 ### Deprecated
 
-- The `kindle-sync` frontmatter property is still currently written to notes, but may be deprecatd in the future; bases should use Obsidian frontmatter properties instead of `kindle-sync` note properties (such as `note["kindle-sync"]["author"]`)
+- The `kindle-sync` frontmatter property is still currently written to notes, but may be deprecated in the future
 
 ### Removed
 
