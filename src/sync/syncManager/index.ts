@@ -54,6 +54,16 @@ export default class SyncManager {
       await diffManager.applyDiffs(remoteBook, remoteHighlights, diffs);
     }
 
+    if (file.frontmatter.highlightsCount !== remoteHighlights.length) {
+      await this.fileManager.updateMetadata(
+        file,
+        {
+          ...file.frontmatter,
+          highlightsCount: remoteHighlights.length,
+        }
+      );
+    }
+
     return diffs;
   }
 

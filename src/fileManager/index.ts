@@ -78,8 +78,13 @@ export default class KindleFileManager {
 
     const fileCache = this.metadataCache.getFileCache(file);
 
-    // File cache can be undefined if this file was just created and not yet cached by Obsidian
-    const kindleFrontmatter = fileCache?.frontmatter?.[SyncingStateKey] as KindleFrontmatter;
+    let kindleFrontmatter: KindleFrontmatter | undefined;
+
+    if (get(settingsStore).useObsidianFileProperties) {
+      kindleFrontmatter = fileCache?.frontmatter as KindleFrontmatter;
+    } else {
+      kindleFrontmatter = fileCache?.frontmatter?.[SyncingStateKey] as KindleFrontmatter;
+    }
 
     if (kindleFrontmatter == null) {
       return undefined;
@@ -108,15 +113,14 @@ export default class KindleFileManager {
 
     try {
       const file = await this.vault.create(filePath, frontmatterContent);
-      await this.fileManager.processFrontMatter(file, (fm) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        fm['tags'] = BookNoteTag;
-      });
+
       if (get(settingsStore).useObsidianFileProperties) {
         const frontMatter = bookToFrontMatter(book, highlightsCount);
         await this.fileManager.processFrontMatter(file, (fm) => {
-          Object.assign(fm, metadata);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          fm['tags'] = BookNoteTag;
           Object.assign(fm, frontMatter);
+          Object.assign(fm, metadata);
         });
       }
     } catch (error) {
@@ -141,14 +145,35 @@ export default class KindleFileManager {
     }
   }
 
+  public async updateMetadata(
+    kindleFile: KindleFile,
+    newFrontmatter: KindleFrontmatter
+  ): Promise<void> {
+    try {
+      await this.fileManager.processFrontMatter(kindleFile.file, (fm) => {
+        if (get(settingsStore).useObsidianFileProperties) {
+          Object.assign(fm, newFrontmatter);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          fm[SyncingStateKey] = newFrontmatter;
+        }
+      });
+    } catch (error) {
+      console.error(`Error updating metadata for file (path="${kindleFile.file.path})"`);
+      throw error;
+    }
+  }
+  
   /**
    * Generate book content by combining both book (a) book markdown and
    * (b) rendered book highlights
    */
   private generateBookContent(book: Book, content: string, highlightsCount: number): string {
-    return mergeFrontmatter(content, {
-      [SyncingStateKey]: bookToFrontMatter(book, highlightsCount),
-    });
+    const frontmatter = bookToFrontMatter(book, highlightsCount);
+    const frontmatterData = get(settingsStore).useObsidianFileProperties
+      ? frontmatter
+      : { [SyncingStateKey]: frontmatter };
+    return mergeFrontmatter(content, frontmatterData);
   }
 
   private generateUniqueFilePath(book: Book): string {
