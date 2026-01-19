@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Stop writing `kindle-sync` attributes when Obsidian note properties are enabled; highlight deletions or changes to the `highlightCount` will be detected when highlights are re-synced (this detection does not apply when changes are made to book metadata, which is expected to be static, for performance reasons)
+- Stop writing `kindle-sync` attributes when Obsidian note properties are enabled
+
+  - When "Use Obsidian file properties" is disabled (the current setting by default), the `kindle-sync` frontmatter attributes will continue to be used
+  - When "Use Obsidian file properties" is enabled, book metadata and highlights will be saved to notes with Obsidian compatible properties
+  - This behavior is also respected when creating book bases via this plugin
+
+- Highlight deletions or changes to the `highlightCount` will be detected when highlights are re-synced (this detection does not apply when changes are made to book metadata, which is expected to be static, for performance reasons)
 
 ## [1.0.1]
 
@@ -45,7 +51,6 @@ The following is a list of changes based on [Kindle Highlights](https://github.c
 ### Changed
 
 - Support for setting groups added in Obsidian v1.11
-- Tag and lookup highlight notes with a `kindle-highlights` tag
 - Rename FileManager to KindleFileManager for disambiguation
 
 ### Deprecated
