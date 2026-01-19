@@ -1,6 +1,6 @@
 {
   "name": "obsidian-kindle-notebook-plugin",
-  "version": "1.1.1",
+  "version": "1.1.1-preview",
   "description": "Sync your Kindle notes and book highlights using your Amazon login or uploading your My Clippings file. This plugin is a fork of Hady Osman's Kindle Highlights plugin with added features and bug fixes.",
   "main": "src/index.ts",
   "repository": {

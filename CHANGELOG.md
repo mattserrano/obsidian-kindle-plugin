@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.1]
+## [1.1.1] (preview release)
+
+This is preview release of a Kindle Highlights fork, intended for distribution via [TfTHacker/obsidian42-brat](https://github.com/TfTHacker/obsidian42-brat) Beta Reviewer's Auto-update Tool for Obsidian.
 
 ### Changed
 
