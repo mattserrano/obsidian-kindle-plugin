@@ -25,6 +25,9 @@ The following is a list of changes based on [Kindle Highlights](https://github.c
 
 ### Added
 
+![kindle_highlights](https://github.com/user-attachments/assets/abe85896-9ee0-4a1c-a593-19f41fd04b3d)
+
+
 - New status bar icon to display the current highlight sync state when logged into Amazon
 - Status bar tooltip to display the last sync time
 - New setting to toggle status bar visibility
@@ -38,13 +41,13 @@ The following is a list of changes based on [Kindle Highlights](https://github.c
 
 ### Changed
 
-- Support for setting groups added in Obsidian v1.11
+- Support for setting groups added in Obsidian v1.11, which is now the minimum plugin version.
 - Tag and lookup highlight notes with a `kindle-highlights` tag
 - Rename FileManager to KindleFileManager for disambiguation
 
 ### Deprecated
 
-- The `kindle-sync` frontmatter property is still currently written to notes, but may be deprecatd in the future; bases should use Obsidian frontmatter properties instead of `kindle-sync` note properties (such as `note["kindle-sync"]["author"]`)
+- The `kindle-sync` frontmatter property is still currently written to notes, but may be deprecated in the future
 
 ### Removed
 
